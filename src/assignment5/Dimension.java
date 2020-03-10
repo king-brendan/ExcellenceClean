@@ -34,6 +34,11 @@ public final class Dimension {
   }
 
   @Override
+  public String toString() {
+    return Integer.toString(getX()) + Integer.toString(getY());
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (obj == this) {
       return true;
@@ -67,14 +72,14 @@ public final class Dimension {
   /**
    * Returns the current x value of the dimension.
    */
-  public double getX() {
+  public int getX() {
     return this.x;
   }
 
   /**
    * Returns the current y value of the dimension.
    */
-  public double getY() {
+  public int getY() {
     return this.y;
   }
 

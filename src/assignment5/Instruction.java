@@ -56,16 +56,6 @@ public final class Instruction {
     this.endColor = endColor;
   }
 
-  @Override
-  public String toString() {
-    return "motion " + shapeName + " " + startTick + " " + startPos.getX() + " " + startPos.getY()
-            + " " + startDim.getX() + " " + startDim.getY() + " " + startColor.getRed()
-            + " " + startColor.getGreen() + " " + startColor.getBlue() + "     "
-            + endTick + " " + endPos.getX() + " " + endPos.getY()
-            + " " + endDim.getX() + " " + endDim.getY() + " " + endColor.getRed()
-            + " " + endColor.getGreen() + " " + endColor.getBlue();
-
-  }
 
   /**
    * Returns the shape name in the instruction.
@@ -131,4 +121,14 @@ public final class Instruction {
     return endColor;
   }
 
+  @Override
+  public String toString() {
+    return "motion " + shapeName + " " + startTick + " " + startPos.getX() + " " + startPos.getY()
+            + " " + startDim.getX() + " " + startDim.getY() + " " + startColor.getRed()
+            + " " + startColor.getGreen() + " " + startColor.getBlue() + "     "
+            + endTick + " " + endPos.getX() + " " + endPos.getY()
+            + " " + endDim.getX() + " " + endDim.getY() + " " + endColor.getRed()
+            + " " + endColor.getGreen() + " " + endColor.getBlue();
+
+  }
 }

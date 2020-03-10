@@ -29,11 +29,10 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
 
       List<Instruction> instructs = e.getValue();
-      
+
       for (Instruction i : instructs) {
         if (tick >= i.getStartTick() && tick <= i.getEndTick()) {
-          Shape s = shapes.get(i.getShapeName());
-          s.applyInstruction(i);
+          e.getKey().applyInstruction(i);
         }
       }
     }
