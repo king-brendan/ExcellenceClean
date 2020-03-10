@@ -10,4 +10,8 @@ public class Oval extends Shape {
     super(name, color, dimension, position);
   }
 
+  @Override
+  public String toString() {
+    return "shape " + getName() + " oval";
+  }
 }

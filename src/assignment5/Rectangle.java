@@ -9,4 +9,9 @@ public class Rectangle extends Shape {
   public Rectangle(String name, Color color, Dimension dimension, Position position) {
     super(name, color, dimension, position);
   }
+
+  @Override
+  public String toString() {
+    return "shape " + getName() + " rectangle";
+  }
 }

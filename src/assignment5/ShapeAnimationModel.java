@@ -41,7 +41,18 @@ public class ShapeAnimationModel implements ExcellenceOperations {
 
   @Override
   public String toText() {
-    return null;
+    String text = "";
+
+    //for every shape, print out the create statement and individual instructions
+    for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
+      Shape s = e.getKey();
+      text = text.concat(s.toString() + "\n");
+      for (Instruction i : e.getValue()) {
+        text = text.concat(i.toString() + "\n");
+      }
+      text = text.concat("\n");
+    }
+    return text;
   }
 
   @Override
