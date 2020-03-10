@@ -20,19 +20,21 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   }
 
 
-
-
   @Override
   public void playAnimation(int tick) {
     if (instructions.size() == 0) {
-      throw new IllegalStateException("There are no shapes to play in the game");
+      throw new IllegalStateException("There are no shapes to animate in the game");
     }
 
-    for (Instruction i : instructions) {
-      if (tick >= i.getStartTick() && tick <= i.getEndTick()) {
-        Shape s = shapes.get(i.getShapeName());
+    for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
 
-        s.applyInstruction(i);
+      List<Instruction> instructs = e.getValue();
+      
+      for (Instruction i : instructs) {
+        if (tick >= i.getStartTick() && tick <= i.getEndTick()) {
+          Shape s = shapes.get(i.getShapeName());
+          s.applyInstruction(i);
+        }
       }
     }
   }
