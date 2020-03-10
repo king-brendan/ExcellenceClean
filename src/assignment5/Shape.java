@@ -23,8 +23,8 @@ public abstract class Shape {
     }
     this.name = name;
     this.color = Constants.backgroundColor;
-    this.dimension = new Dimension(0,0);
-    this.position = new Position(0,0);
+    this.dimension = new Dimension(0, 0);
+    this.position = new Position(0, 0);
   }
 
   /**
@@ -56,7 +56,12 @@ public abstract class Shape {
    */
   private void changeColor(Color startColor, Color endColor, int tickDiff) {
     if (!startColor.equals(endColor)) {
-      //TODO
+      int rDiff = (endColor.getRed() - startColor.getRed()) / tickDiff;
+      int gDiff = (endColor.getGreen() - startColor.getGreen()) / tickDiff;
+      int bDiff = (endColor.getBlue() - startColor.getBlue()) / tickDiff;
+
+      color = new Color(getColor().getRed() + rDiff, getColor().getGreen() + gDiff,
+              getColor().getBlue() + bDiff);
     }
 
 
@@ -67,7 +72,13 @@ public abstract class Shape {
    */
   private void changePosition(Position startPos, Position endPos, int tickDiff) {
     if (!startPos.equals(endPos)) {
-      double xDiff = endPos.getX() - startPos.getX();
+      double xDiff = (endPos.getX() - startPos.getX()) / tickDiff;
+      double yDiff = (endPos.getY() - startPos.getY()) / tickDiff;
+
+      Position newPos = new Position(getPosition().getX() + xDiff,
+              getPosition().getY() + yDiff);
+
+      this.position.setPosition(newPos);
     }
 
   }
@@ -81,7 +92,13 @@ public abstract class Shape {
   private void changeDimension(Dimension startDim, Dimension endDim, int tickDiff) {
 
     if (!startDim.equals(endDim)) {
+      int xDiff = (endDim.getX() - startDim.getX()) / tickDiff;
+      int yDiff = (endDim.getY() - startDim.getY()) / tickDiff;
 
+      Dimension newDim = new Dimension(getDimension().getX() + xDiff,
+              getDimension().getY() + yDiff);
+
+      this.dimension.setDimension(newDim);
     }
   }
 

@@ -41,7 +41,7 @@ public final class Instruction {
       throw new IllegalArgumentException("Parameters cannot be null");
     }
 
-    if (endTick < 0 || (endTick >= startTick)) {
+    if (startTick < 0 || (startTick <= endTick)) {
       throw new IllegalArgumentException("Ticks are invalid");
     }
 
