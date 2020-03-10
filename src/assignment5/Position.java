@@ -31,24 +31,8 @@ public class Position {
     setY(p.y);
   }
 
-  @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
 
-  @Override
-  public boolean equals(Object obj) {
-    if(obj == this) {
-      return true;
-    }
-    if(!(obj instanceof Position)) {
-      return false;
-    }
 
-    Position p = (Position) obj;
-
-    return (p.getX() == this.x && p.getY() == this.y);
-  }
 
   /**
    * Returns a copy of the current position.
@@ -97,5 +81,24 @@ public class Position {
    */
   private void setY(double y) {
     this.y = y;
+  }
+
+  @Override
+  public int hashCode() {
+    return (int) (getX()*100000 + getY());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == this) {
+      return true;
+    }
+    if(!(obj instanceof Position)) {
+      return false;
+    }
+
+    Position p = (Position) obj;
+
+    return (p.getX() == this.x && p.getY() == this.y);
   }
 }

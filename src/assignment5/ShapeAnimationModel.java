@@ -100,6 +100,26 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   @Override
   public void addShape(String shapeName, String shapeType) {
     //TODO needs to initalize a shape's list of instructions as well!!!
+    Shape s;
+    /*
+    We Used a switch statement so that if we need to add more shape types in the future we can
+    just adjust this. Since we do not have all the details for what kinds of shapes we are going
+    to draw, this might be changed later.
+     */
+    switch (shapeType) {
+      case "rectangle":
+        s = new Rectangle(shapeName);
+        shapes.put(shapeName, s);
+        instructions.put(s, new ArrayList<>());
+        break;
+      case "oval":
+        s = new Oval(shapeName);
+        shapes.put(shapeName, s);
+        instructions.put(s, new ArrayList<>());
+        break;
+      default:
+        throw new IllegalArgumentException("Shape type does not exist");
+    }
   }
 
 

@@ -33,24 +33,6 @@ public final class Dimension {
     setY(d.y);
   }
 
-  @Override
-  public String toString() {
-    return Integer.toString(getX()) + Integer.toString(getY());
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    }
-    if (!(obj instanceof Dimension)) {
-      return false;
-    }
-
-    Dimension d = (Dimension) obj;
-
-    return (d.getX() == this.getX() && d.getY() == this.getY());
-  }
 
   /**
    * Sets the position as the given one.
@@ -100,5 +82,24 @@ public final class Dimension {
    */
   private void setY(int y) {
     this.y = y;
+  }
+
+  @Override
+  public int hashCode() {
+    return (getX()*100000 + getY());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Dimension)) {
+      return false;
+    }
+
+    Dimension d = (Dimension) obj;
+
+    return (d.getX() == this.getX() && d.getY() == this.getY());
   }
 }

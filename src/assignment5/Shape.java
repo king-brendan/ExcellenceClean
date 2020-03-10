@@ -12,22 +12,19 @@ public abstract class Shape {
   private final Position position;
 
   /**
-   * Public constructor to create  a shape.
+   * Initializes a shape with only its name.
    *
-   * @param name      the  shape  name
-   * @param color     the shape  color
-   * @param dimension the dimensions of the shape
-   * @param position  the position of the shape
+   * @param name the  shape  name
    * @throws IllegalArgumentException if any parameters are null
    */
-  public Shape(String name, Color color, Dimension dimension, Position position) {
-    if (name == null || color == null || dimension == null || position == null) {
+  public Shape(String name) {
+    if (name == null) {
       throw new IllegalArgumentException("Parameters cannot be null");
     }
     this.name = name;
-    this.color = color;
-    this.dimension = dimension;
-    this.position = position;
+    this.color = Constants.backgroundColor;
+    this.dimension = new Dimension(0,0);
+    this.position = new Position(0,0);
   }
 
   /**
@@ -70,7 +67,7 @@ public abstract class Shape {
    */
   private void changePosition(Position startPos, Position endPos, int tickDiff) {
     if (!startPos.equals(endPos)) {
-
+      double xDiff = endPos.getX() - startPos.getX();
     }
 
   }
