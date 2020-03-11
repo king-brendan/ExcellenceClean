@@ -31,7 +31,7 @@ public class ShapeAnimationModel implements ExcellenceOperations {
       List<Instruction> instructs = e.getValue();
 
       for (Instruction i : instructs) {
-        if (tick >= i.getStartTick() && tick <= i.getEndTick()) {
+        if (tick > i.getStartTick() && tick <= i.getEndTick()) {
           e.getKey().applyInstruction(i);
         }
       }
