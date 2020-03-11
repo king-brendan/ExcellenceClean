@@ -66,11 +66,29 @@ public abstract class Shape {
       int gDiff = (endColor.getGreen() - startColor.getGreen()) / tickDiff;
       int bDiff = (endColor.getBlue() - startColor.getBlue()) / tickDiff;
 
-      color = new Color(getColor().getRed() + rDiff, getColor().getGreen() + gDiff,
-              getColor().getBlue() + bDiff);
+      int newR = checkColorRange(getColor().getRed() + rDiff);
+      int newG = checkColorRange(getColor().getGreen() + gDiff);
+      int newB = checkColorRange(getColor().getBlue() + bDiff);
+      color = new Color(newR, newG, newB);
     }
+  }
 
 
+  /**
+   * Makes sure that the int is within the range 0-255 and returns a number within than range.
+   *
+   * @param i is the integer.
+   * @return an int between 0-255
+   */
+  private int checkColorRange(int i) {
+    int ret = i;
+    if (i < 0) {
+      ret = 0;
+    }
+    if (i > 255) {
+      ret = 255;
+    }
+    return ret;
   }
 
   /**
