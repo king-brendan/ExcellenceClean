@@ -40,5 +40,15 @@ public class TestToText {
     assertEquals(6, eo1.getShapes().get("Rect 1").getPosition().getX(), .001);
   }
 
-
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddInvalidInstructionTick() {
+    ExcellenceOperations eo1 = new ShapeAnimationModel();
+    eo1.addShape("Rect 1", "rectangle");
+    eo1.addInstruction("Rect 1", 1, 11, new Position(5, 5),
+            new Position(15, 15), new Dimension(100, 100),
+            new Dimension(200, 200), Color.GREEN, Color.RED);
+    eo1.addInstruction("Rect 1", 6, 15, new Position(15, 15),
+            new Position(20, 20), new Dimension(200, 200),
+            new Dimension(300, 300), Color.RED, Color.BLUE);
+  }
 }
