@@ -108,16 +108,16 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     Instruction lastI = instructs.get(instructs.size() - 1);
 
     if (lastI.getEndTick() != i.getStartTick()) {
-      throw new IllegalArgumentException("There is a gap in instruction times");
+      throw new IllegalArgumentException("Instructions times don't match up");
     }
     if (!lastI.getEndDimension().equals(i.getStartDimension())) {
-      throw new IllegalArgumentException("There is a gap in dimensions");
+      throw new IllegalArgumentException("Instructions dimensions don't match up");
     }
     if (!lastI.getEndPosition().equals(i.getStartPosition())) {
-      throw new IllegalArgumentException("There is a gap in positions");
+      throw new IllegalArgumentException("Instructions positions don't match up");
     }
     if (!lastI.getEndColor().equals(i.getStartColor())) {
-      throw new IllegalArgumentException("There is a gap in colors");
+      throw new IllegalArgumentException("Instructions colors don't match up");
     }
 
   }
