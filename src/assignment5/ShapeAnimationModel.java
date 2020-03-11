@@ -88,9 +88,10 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   private void addInstructToList(Instruction i, List<Instruction> instructs) {
     if (instructs.size() == 0) {
       instructs.add(i);
+      Shape s = shapes.get(i.getShapeName());
+      s.assignBeginningConditions(i);
     } else {
       canAddInstructions(i, instructs);
-
       instructs.add(i);
 
     }

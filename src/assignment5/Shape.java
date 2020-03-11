@@ -29,6 +29,17 @@ public abstract class Shape {
   }
 
   /**
+   * Assigns the initial conditions of a shape from the start states of an instructions.
+   *
+   * @param instruction is the given instruction.
+   */
+  public void assignBeginningConditions(Instruction instruction) {
+    position.setPosition(instruction.getStartPosition());
+    dimension.setDimension(instruction.getStartDimension());
+    color = instruction.getStartColor();
+  }
+
+  /**
    * Makes a copy of the shape.
    */
   public abstract Shape makeCopy();
