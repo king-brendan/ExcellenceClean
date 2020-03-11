@@ -89,21 +89,36 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     if (instructs.size() == 0) {
       instructs.add(i);
     } else {
-      if (canAddInstructions(i, instructs)) {
-        instructs.add(i);
-      } else {
-        throw new IllegalArgumentException("There is a gap in instructions for this shape");
-      }
+      canAddInstructions(i, instructs);
+
+      instructs.add(i);
+
     }
   }
 
 
   /**
-   *
+   * @throws IllegalArgumentException if the instruction does not have the same start position,
+   *                                  start dimension, start color, or start tick equal to the last
+   *                                  instructions (in the list of instruction) end position, end
+   *                                  dimension, end color, or end tick.
    */
-  private boolean canAddInstructions(Instruction i, List<Instruction> instructs) {
-    //instructs.get(instructs.size() - 1).getEndTick() == i.getStartTick();
-    return true;
+  private void canAddInstructions(Instruction i, List<Instruction> instructs) {
+    Instruction lastI = instructs.get(instructs.size() - 1);
+
+    if (lastI.getEndTick() != i.getStartTick()) {
+      throw new IllegalArgumentException("There is a gap in instruction times");
+    }
+    if (!lastI.getEndDimension().equals(i.getStartDimension())) {
+      throw new IllegalArgumentException("There is a gap in dimensions");
+    }
+    if (!lastI.getEndPosition().equals(i.getStartPosition())) {
+      throw new IllegalArgumentException("There is a gap in positions");
+    }
+    if (!lastI.getEndColor().equals(i.getStartColor())) {
+      throw new IllegalArgumentException("There is a gap in colors");
+    }
+
   }
 
   @Override
