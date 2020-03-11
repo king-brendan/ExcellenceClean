@@ -9,9 +9,9 @@ import java.awt.*;
 public final class Constants {
 
   //View width and height to be used in making the view as well.
-  final static int viewWidth = 500;
+  final static double viewWidth = 500;
 
-  final static int viewHeight = 500;
+  final static double viewHeight = 500;
 
   final static Color backgroundColor = Color.WHITE;
 }

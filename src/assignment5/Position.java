@@ -32,8 +32,6 @@ public class Position {
   }
 
 
-
-
   /**
    * Returns a copy of the current position.
    */
@@ -85,20 +83,31 @@ public class Position {
 
   @Override
   public int hashCode() {
-    return (int) (getX()*100000 + getY());
+    return (int) (getX() * 100000 + getY());
   }
 
   @Override
   public boolean equals(Object obj) {
-    if(obj == this) {
+    if (obj == this) {
       return true;
     }
-    if(!(obj instanceof Position)) {
+    if (!(obj instanceof Position)) {
       return false;
     }
 
     Position p = (Position) obj;
 
-    return (p.getX() == this.x && p.getY() == this.y);
+    return (isWithin(p.getX(), this.getX()) && isWithin(p.getY(), this.getY()));
+  }
+
+  /**
+   * To check if two double are within a 0.001 threshold.
+   *
+   * @param d1 the first double
+   * @param d2 the second double
+   * @return boolean
+   */
+  private boolean isWithin(double d1, double d2) {
+    return Math.abs(d1 - d2) < 0.001;
   }
 }

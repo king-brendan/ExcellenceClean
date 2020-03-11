@@ -6,10 +6,11 @@ import java.awt.*;
  * Represents a Shape to be altered in the animation.
  */
 public abstract class Shape {
-  private final String name;
-  private Color color;
-  private final Dimension dimension;
-  private final Position position;
+  //Protected so they can be accessed in sub-classes.
+  protected final String name;
+  protected Color color;
+  protected final Dimension dimension;
+  protected final Position position;
 
   /**
    * Initializes a shape with only its name.
@@ -26,6 +27,11 @@ public abstract class Shape {
     this.dimension = new Dimension(0, 0);
     this.position = new Position(0, 0);
   }
+
+  /**
+   * Makes a copy of the shape.
+   */
+  public abstract Shape makeCopy();
 
   /**
    * Applies the given instruction to the Shape. It will only apply a change to position, dimension,
@@ -92,8 +98,8 @@ public abstract class Shape {
   private void changeDimension(Dimension startDim, Dimension endDim, int tickDiff) {
 
     if (!startDim.equals(endDim)) {
-      int xDiff = (endDim.getX() - startDim.getX()) / tickDiff;
-      int yDiff = (endDim.getY() - startDim.getY()) / tickDiff;
+      double xDiff = (endDim.getX() - startDim.getX()) / tickDiff;
+      double yDiff = (endDim.getY() - startDim.getY()) / tickDiff;
 
       Dimension newDim = new Dimension(getDimension().getX() + xDiff,
               getDimension().getY() + yDiff);

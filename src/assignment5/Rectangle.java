@@ -11,6 +11,16 @@ public class Rectangle extends Shape {
   }
 
   @Override
+  public Shape makeCopy() {
+    Rectangle r = new Rectangle(getName());
+    r.dimension.setDimension(this.getDimension());
+    r.position.setPosition(this.getPosition());
+    r.color = this.getColor();
+
+    return r;
+  }
+
+  @Override
   public String toString() {
     return "shape " + getName() + " rectangle";
   }

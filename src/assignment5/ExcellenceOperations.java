@@ -1,6 +1,7 @@
 package assignment5;
 
 import java.awt.*;
+import java.util.Map;
 
 public interface ExcellenceOperations {
 
@@ -49,6 +50,12 @@ public interface ExcellenceOperations {
    * @throws IllegalArgumentException if the shape has a wrong type.
    */
   public void addShape(String shapeName, String shapeType);
+
+  /**
+   * Returns a copy of the the shapes in the model as a hashmap.
+   *
+   */
+  public Map<String,Shape> getShapes();
 
 
 }

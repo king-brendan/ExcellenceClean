@@ -78,8 +78,8 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   }
 
   /**
-   * Adds an instruction to a list of instructions if its startTick is equal to the endTick of the
-   * last instruction in the list.
+   * Adds an instruction to a list of instructions if its start state for the shape is equal to the
+   * end state of the shape in the last instruction in the list.
    *
    * @param i         is the instruction
    * @param instructs is the list of instructions
@@ -89,12 +89,21 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     if (instructs.size() == 0) {
       instructs.add(i);
     } else {
-      if (instructs.get(instructs.size() - 1).getEndTick() == i.getStartTick()) {
+      if (canAddInstructions(i, instructs)) {
         instructs.add(i);
       } else {
         throw new IllegalArgumentException("There is a gap in instructions for this shape");
       }
     }
+  }
+
+
+  /**
+   *
+   */
+  private boolean canAddInstructions(Instruction i, List<Instruction> instructs) {
+    //instructs.get(instructs.size() - 1).getEndTick() == i.getStartTick();
+    return true;
   }
 
   @Override
@@ -120,6 +129,18 @@ public class ShapeAnimationModel implements ExcellenceOperations {
       default:
         throw new IllegalArgumentException("Shape type does not exist");
     }
+  }
+
+  @Override
+  public Map<String, Shape> getShapes() {
+    HashMap<String, Shape> copy = new HashMap<>();
+
+    for (Map.Entry<String, Shape> entry : shapes.entrySet()) {
+      Shape s = entry.getValue().makeCopy();
+      String str = entry.getKey();
+      copy.put(str, s);
+    }
+    return copy;
   }
 
 
