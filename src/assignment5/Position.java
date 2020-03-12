@@ -3,7 +3,7 @@ package assignment5;
 /**
  * A class to represent the position of a shape within our model space.
  */
-public class Position {
+public final class Position {
   private double x, y;
 
   /**
@@ -14,9 +14,6 @@ public class Position {
    * @throws IllegalArgumentException if the arguments given are out of bounds.
    */
   public Position(double x, double y) {
-    if (x < 0 || y < 0 || x > Constants.viewWidth || y > Constants.viewHeight) {
-      throw new IllegalArgumentException("Position is out of bounds");
-    }
     setX(x);
     setY(y);
   }
@@ -24,7 +21,7 @@ public class Position {
   /**
    * A copy constructor for position.
    *
-   * @param p is the position to be copued.
+   * @param p is the position to be copied.
    */
   public Position(Position p) {
     setX(p.x);
@@ -35,7 +32,7 @@ public class Position {
   /**
    * Returns a copy of the current position.
    */
-  public Position getPosition() {
+  protected Position getPosition() {
     return new Position(this);
   }
 
@@ -43,14 +40,16 @@ public class Position {
    * Returns the current x value of the position.
    */
   public double getX() {
-    return this.x;
+    double r = this.x * 1;
+    return r;
   }
 
   /**
    * Returns the current y value of the position.
    */
   public double getY() {
-    return this.y;
+    double r = this.y * 1;
+    return r;
   }
 
   /**
@@ -58,7 +57,7 @@ public class Position {
    *
    * @param p is the new position
    */
-  public void setPosition(Position p) {
+  protected void setPosition(Position p) {
     setY(p.y);
     setX(p.x);
   }

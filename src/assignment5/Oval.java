@@ -19,9 +19,9 @@ public class Oval extends Shape {
 
     return o;
   }
+
   @Override
   public String toString() {
     return "shape " + getName() + " oval";
   }
-
 }

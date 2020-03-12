@@ -42,14 +42,20 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   public String toText() {
     String text = "";
 
+    //TODO make sure it doesn't add an extra line at the very end
     //for every shape, print out the create statement and individual instructions
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
       Shape s = e.getKey();
       text = text.concat(s.toString() + "\n");
       for (Instruction i : e.getValue()) {
-        text = text.concat(i.toString() + "\n");
+        text = text.concat(i.toString());
+        text = text + "\n";
       }
-      text = text.concat("\n");
+      if (new ArrayList<Map.Entry<Shape, List<Instruction>>>(instructions.entrySet()).indexOf(e)
+              != new ArrayList<Map.Entry<Shape, List<Instruction>>>(
+                      instructions.entrySet()).size() - 1)  {
+        text = text.concat("\n");
+      }
     }
     return text;
   }
@@ -93,7 +99,6 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     } else {
       canAddInstructions(i, instructs);
       instructs.add(i);
-
     }
   }
 
@@ -101,7 +106,7 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   /**
    * @throws IllegalArgumentException if the instruction does not have the same start position,
    *                                  start dimension, start color, or start tick equal to the last
-   *                                  instructions (in the list of instruction) end position, end
+   *                                  instruction's (in the list of instruction) end position, end
    *                                  dimension, end color, or end tick.
    */
   private void canAddInstructions(Instruction i, List<Instruction> instructs) {
@@ -130,6 +135,9 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     just adjust this. Since we do not have all the details for what kinds of shapes we are going
     to draw, this might be changed later.
      */
+    if (shapes.get(shapeName) != null) {
+      throw new IllegalStateException("Shape already exists");
+    }
     switch (shapeType) {
       case "rectangle":
         s = new Rectangle(shapeName);

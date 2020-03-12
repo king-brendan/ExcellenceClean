@@ -60,14 +60,14 @@ public final class Instruction {
   /**
    * Returns the shape name in the instruction.
    */
-  public String getShapeName() {
+  protected String getShapeName() {
     return shapeName;
   }
 
   /**
    * Returns the startTick of the Instruction.
    */
-  public int getStartTick() {
+  protected int getStartTick() {
     return startTick;
   }
 
@@ -75,7 +75,7 @@ public final class Instruction {
   /**
    * Returns the endTick of the Instruction.
    */
-  public int getEndTick() {
+  protected int getEndTick() {
     return endTick;
   }
 
@@ -110,14 +110,14 @@ public final class Instruction {
   /**
    * Returns the start color of the Instruction.
    */
-  public Color getStartColor() {
+  protected Color getStartColor() {
     return startColor;
   }
 
   /**
    * Returns the start color of the Instruction.
    */
-  public Color getEndColor() {
+  protected Color getEndColor() {
     return endColor;
   }
 

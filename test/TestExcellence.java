@@ -35,14 +35,26 @@ public class TestExcellence {
             new Position(10, 10), new Dimension(100, 100),
             new Dimension(500, 500), Color.BLUE, Color.BLACK);
     System.out.println(eo1.toText());
+    assertEquals("shape Oval 1 oval\nmotion Oval 1 6 4.0 4.0 100.0 100.0 0 0 255     "
+            + "20 10.0 10.0 500.0 500.0 0 0 0\n\nshape Rect 1 rectangle\n"
+            + "motion Rect 1 1 5.0 5.0 100.0 100.0 0 255 0     11 15.0 15.0 200.0 200.0 255 0 0",
+            eo1.toText());
+  }
+
+  @Test
+  public void testPlayAnimationTick1ChangesNothing() {
+    initExamples();
+    eo1.playAnimation(1);
+    //TODO tests showing that nothing has changed
   }
 
   @Test
   public void testPlayAnimation() {
     initExamples();
-    eo1.playAnimation(1);
     eo1.playAnimation(2);
     assertEquals(6, eo1.getShapes().get("Rect 1").getPosition().getX(), .001);
+    assertEquals(110, eo1.getShapes().get("Rect 1").getDimension().getX(), .001);
+    assertEquals(null, eo1.getShapes().get("Rect 1").getColor());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -111,5 +123,17 @@ public class TestExcellence {
   @Test(expected = IllegalArgumentException.class)
   public void testAddShapeInvalidType() {
 
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCreateInvalidShape() {
+
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testAddAlreadyExistingShape() {
+    initExamples();
+    eo1.addShape("Rect 1", "rectangle");
+    System.out.println(eo1.toText());
   }
 }

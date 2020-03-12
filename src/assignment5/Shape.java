@@ -33,7 +33,7 @@ public abstract class Shape {
    *
    * @param instruction is the given instruction.
    */
-  public void assignBeginningConditions(Instruction instruction) {
+  protected void assignBeginningConditions(Instruction instruction) {
     position.setPosition(instruction.getStartPosition());
     dimension.setDimension(instruction.getStartDimension());
     color = instruction.getStartColor();
@@ -42,7 +42,7 @@ public abstract class Shape {
   /**
    * Makes a copy of the shape.
    */
-  public abstract Shape makeCopy();
+  protected abstract Shape makeCopy();
 
   /**
    * Applies the given instruction to the Shape. It will only apply a change to position, dimension,
@@ -52,7 +52,7 @@ public abstract class Shape {
    * @param instruction is the given Instruction
    * @throws IllegalArgumentException if the instruction is null.
    */
-  public void applyInstruction(Instruction instruction) {
+  protected void applyInstruction(Instruction instruction) {
     if (instruction == null) {
       throw new IllegalArgumentException("Instruction cannot be null");
     }
@@ -140,15 +140,15 @@ public abstract class Shape {
   /**
    * Returns the name of the shape.
    */
-  public String getName() {
+  protected String getName() {
     return name;
   }
 
   /**
-   * Returns the color of the shape.
+   * Returns a copy of the color of the shape.
    */
   public Color getColor() {
-    return color;
+    return new Color(this.color.getRGB());
   }
 
   /**
@@ -164,4 +164,5 @@ public abstract class Shape {
   public Dimension getDimension() {
     return new Dimension(dimension);
   }
+
 }

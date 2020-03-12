@@ -39,30 +39,25 @@ public final class Dimension {
    *
    * @param d is the new position
    */
-  public void setDimension(Dimension d) {
+  protected void setDimension(Dimension d) {
     setY(d.y);
     setX(d.x);
   }
 
   /**
-   * Returns a copy of the current position.
-   */
-  public Dimension getDimension() {
-    return new Dimension(this);
-  }
-
-  /**
-   * Returns the current x value of the dimension.
+   * Returns a copy of the current x value of the dimension.
    */
   public double getX() {
-    return this.x;
+    double r = this.x * 1;
+    return r;
   }
 
   /**
-   * Returns the current y value of the dimension.
+   * Returns a copy of the current y value of the dimension.
    */
   public double getY() {
-    return this.y;
+    double r = this.y * 1;
+    return r;
   }
 
 
