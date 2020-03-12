@@ -49,9 +49,13 @@ public class ShapeAnimationModel implements ExcellenceOperations {
       text = text.concat(s.toString() + "\n");
       for (Instruction i : e.getValue()) {
         text = text.concat(i.toString());
-        text = text + "\n";
+        if (new ArrayList<>(instructions.entrySet()).indexOf(e)
+                != new ArrayList<Map.Entry<Shape, List<Instruction>>>(
+                instructions.entrySet()).size() - 1)  {
+          text = text.concat("\n");
+        }
       }
-      if (new ArrayList<Map.Entry<Shape, List<Instruction>>>(instructions.entrySet()).indexOf(e)
+      if (new ArrayList<>(instructions.entrySet()).indexOf(e)
               != new ArrayList<Map.Entry<Shape, List<Instruction>>>(
                       instructions.entrySet()).size() - 1)  {
         text = text.concat("\n");
