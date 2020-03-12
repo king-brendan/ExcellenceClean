@@ -1,19 +1,24 @@
 package assignment5;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * A concrete implementation of the ExcellenceOperations interface.
+ * A concrete implementation of the ExcellenceOperations interface. It is an immutable object that
+ * includes immutable fields for the shapes and Instructions represented as Maps. It is a model for
+ * an animator that creates an animation based on user string input detailing the animation.
  */
-public class ShapeAnimationModel implements ExcellenceOperations {
+public final class ShapeAnimationModel implements ExcellenceOperations {
   private final Map<String, Shape> shapes;
   private final Map<Shape, List<Instruction>> instructions;
 
 
+  /**
+   * A public constructor for the model that initializes the fields to empty Maps.
+   */
   public ShapeAnimationModel() {
     this.shapes = new HashMap<>();
     this.instructions = new HashMap<>();
@@ -22,8 +27,11 @@ public class ShapeAnimationModel implements ExcellenceOperations {
 
   @Override
   public void playAnimation(int tick) {
-    if (instructions.size() == 0) {
+    if (shapes.size() == 0) {
       throw new IllegalStateException("There are no shapes to animate in the game");
+    }
+    if (tick < 0) {
+      throw new IllegalArgumentException("Tick cannot be negative");
     }
 
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
@@ -42,27 +50,21 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   public String toText() {
     String text = "";
 
-    //TODO make sure it doesn't add an extra line at the very end
-    //for every shape, print out the create statement and individual instructions
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
       Shape s = e.getKey();
+      List<Instruction> instructs = e.getValue();
+
       text = text.concat(s.toString() + "\n");
-      for (Instruction i : e.getValue()) {
-        text = text.concat(i.toString());
-        if (new ArrayList<>(instructions.entrySet()).indexOf(e)
-                != new ArrayList<Map.Entry<Shape, List<Instruction>>>(
-                instructions.entrySet()).size() - 1)  {
-          text = text.concat("\n");
-        }
+
+      for (Instruction i : instructs) {
+        text = text.concat(i.toString() + "\n");
       }
-      if (new ArrayList<>(instructions.entrySet()).indexOf(e)
-              != new ArrayList<Map.Entry<Shape, List<Instruction>>>(
-                      instructions.entrySet()).size() - 1)  {
-        text = text.concat("\n");
-      }
+
+      text = text.concat("\n");
     }
-    return text;
+    return text.substring(0, text.length() - 2);
   }
+
 
   @Override
   public void addInstruction(String shapeName, int startTick,
@@ -108,6 +110,8 @@ public class ShapeAnimationModel implements ExcellenceOperations {
 
 
   /**
+   * Checks if an instruction cannot be added to a list of instruction by throwing an exception.
+   *
    * @throws IllegalArgumentException if the instruction does not have the same start position,
    *                                  start dimension, start color, or start tick equal to the last
    *                                  instruction's (in the list of instruction) end position, end
@@ -132,30 +136,21 @@ public class ShapeAnimationModel implements ExcellenceOperations {
   }
 
   @Override
-  public void addShape(String shapeName, String shapeType) {
-    Shape s;
-    /*
-    We Used a switch statement so that if we need to add more shape types in the future we can
-    just adjust this. Since we do not have all the details for what kinds of shapes we are going
-    to draw, this might be changed later.
-     */
+  public void addShape(String shapeName, Shape.ShapeType shapeType) {
+
+    if (shapeName == null || shapeType == null) {
+      throw new IllegalArgumentException("Parameters cannot be null");
+    }
+
     if (shapes.get(shapeName) != null) {
-      throw new IllegalStateException("Shape already exists");
+      throw new IllegalArgumentException("Shape already exists");
     }
-    switch (shapeType) {
-      case "rectangle":
-        s = new Rectangle(shapeName);
-        shapes.put(shapeName, s);
-        instructions.put(s, new ArrayList<>());
-        break;
-      case "oval":
-        s = new Oval(shapeName);
-        shapes.put(shapeName, s);
-        instructions.put(s, new ArrayList<>());
-        break;
-      default:
-        throw new IllegalArgumentException("Shape type does not exist");
-    }
+
+    Shape s = new Shape(shapeName, shapeType);
+
+    shapes.put(shapeName, s);
+    instructions.put(s, new ArrayList<>());
+
   }
 
   @Override
@@ -170,7 +165,25 @@ public class ShapeAnimationModel implements ExcellenceOperations {
     return copy;
   }
 
+  @Override
+  public Map<Shape, List<Instruction>> getInstructions() {
+    HashMap<Shape, List<Instruction>> copy = new HashMap<>();
 
+    for (Map.Entry<Shape, List<Instruction>> entry : instructions.entrySet()) {
+      Shape s = entry.getKey().makeCopy();
+
+      List<Instruction> newInstructions = new ArrayList<>();
+      for (Instruction i : entry.getValue()) {
+
+        Instruction newI = new Instruction(i.getShapeName(), i.getStartTick(), i.getEndTick(),
+                i.getStartPosition(), i.getEndPosition(), i.getStartDimension(), i.getEndDimension()
+                , i.getStartColor(), i.getEndColor());
+        newInstructions.add(newI);
+      }
+      copy.put(s, newInstructions);
+    }
+    return copy;
+  }
 }
 
 //Extra functionality that might be needed later, so commented out for possible future  use.

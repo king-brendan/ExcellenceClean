@@ -1,24 +1,28 @@
 package assignment5;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
- * A Class to represent the instructions given by the user.
+ * A Class to represent the instructions given by the user. It contains the state of the shape from
+ * the start tick till the end tick. It does not hold the shape itself, but only its name so that
+ * you cannot access the shape from the instruction itself. The instruction is immutable and is
+ * read-only (only has getters without any setters).
  */
 public final class Instruction {
-  private String shapeName;
-  private int startTick;
-  private int endTick;
-  private Position startPos;
-  private Position endPos;
-  private Dimension startDim;
-  private Dimension endDim;
-  private Color startColor;
-  private Color endColor;
+  private final String shapeName;
+  private final int startTick;
+  private final int endTick;
+  private final Position startPos;
+  private final Position endPos;
+  private final Dimension startDim;
+  private final Dimension endDim;
+  private final Color startColor;
+  private final Color endColor;
 
 
   /**
-   * Public constructor for Instruction that creates a new Instruction.
+   * Public constructor for Instruction that creates a new Instruction given all the variables. It
+   * will only be created and accessed within the package, so it is set to default.
    *
    * @param shapeName  is the shape name
    * @param startTick  is when the instruction is applied to the model
@@ -31,10 +35,10 @@ public final class Instruction {
    * @param endColor   end color of the shape if changed
    * @throws IllegalArgumentException if any of the parameters are null or the ticks are invalid.
    */
-  public Instruction(String shapeName, int startTick, int endTick,
-                     Position startPos,
-                     Position endPos, Dimension startDim, Dimension endDim, Color startColor,
-                     Color endColor) {
+  Instruction(String shapeName, int startTick, int endTick,
+              Position startPos,
+              Position endPos, Dimension startDim, Dimension endDim, Color startColor,
+              Color endColor) {
 
     if (shapeName == null || startPos == null || endPos == null
             || startDim == null || endDim == null || startColor == null || endColor == null) {
@@ -60,14 +64,14 @@ public final class Instruction {
   /**
    * Returns the shape name in the instruction.
    */
-  protected String getShapeName() {
+  String getShapeName() {
     return shapeName;
   }
 
   /**
    * Returns the startTick of the Instruction.
    */
-  protected int getStartTick() {
+  int getStartTick() {
     return startTick;
   }
 
@@ -75,49 +79,49 @@ public final class Instruction {
   /**
    * Returns the endTick of the Instruction.
    */
-  protected int getEndTick() {
+  int getEndTick() {
     return endTick;
   }
 
   /**
    * Returns a copy of the startPosition of the Instruction.
    */
-  public Position getStartPosition() {
+  Position getStartPosition() {
     return new Position(startPos);
   }
 
   /**
    * Returns a copy of the endPosition of the Instruction.
    */
-  public Position getEndPosition() {
+  Position getEndPosition() {
     return new Position(endPos);
   }
 
   /**
    * Returns a copy of the startDimension of the Instruction.
    */
-  public Dimension getStartDimension() {
+  Dimension getStartDimension() {
     return new Dimension(startDim);
   }
 
   /**
    * Returns a copy of the endDimension of the Instruction.
    */
-  public Dimension getEndDimension() {
+  Dimension getEndDimension() {
     return new Dimension(endDim);
   }
 
   /**
    * Returns the start color of the Instruction.
    */
-  protected Color getStartColor() {
+  Color getStartColor() {
     return startColor;
   }
 
   /**
    * Returns the start color of the Instruction.
    */
-  protected Color getEndColor() {
+  Color getEndColor() {
     return endColor;
   }
 

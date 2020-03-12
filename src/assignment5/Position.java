@@ -4,7 +4,8 @@ package assignment5;
  * A class to represent the position of a shape within our model space.
  */
 public final class Position {
-  private double x, y;
+  private double x;
+  private double y;
 
   /**
    * A public constructor to create a Position.
@@ -14,6 +15,9 @@ public final class Position {
    * @throws IllegalArgumentException if the arguments given are out of bounds.
    */
   public Position(double x, double y) {
+    if (x < 0 || y < 0 || x > Constants.VIEW_WIDTH || y > Constants.VIEW_HEIGHT) {
+      throw new IllegalArgumentException("Position is out of bounds");
+    }
     setX(x);
     setY(y);
   }
@@ -32,7 +36,7 @@ public final class Position {
   /**
    * Returns a copy of the current position.
    */
-  protected Position getPosition() {
+  public Position getPosition() {
     return new Position(this);
   }
 
@@ -53,11 +57,12 @@ public final class Position {
   }
 
   /**
-   * Sets the position as the given one.
+   * Sets the position as the given one. Set as default for similar reasons as the setDimension
+   * method.
    *
    * @param p is the new position
    */
-  protected void setPosition(Position p) {
+  void setPosition(Position p) {
     setY(p.y);
     setX(p.x);
   }

@@ -1,7 +1,9 @@
 package assignment5;
 
 /**
- * Represents the x and y dimensions of a Shape.
+ * Represents the x and y dimensions of a Shape. This will be used to draw the shape with the
+ * correct dimensions. While every shape is different, an X and Y value are enough represent how it
+ * will be shown/drawn.
  */
 public final class Dimension {
   private double x;
@@ -13,11 +15,11 @@ public final class Dimension {
    *
    * @param x is the x value.
    * @param y is the y value.
-   * @throws IllegalArgumentException if the dimension values are negative.
+   * @throws IllegalArgumentException if the dimension values are negative or too big.
    */
   public Dimension(double x, double y) {
-    if (x < 0 || y < 0 || x > Constants.viewWidth || y > Constants.viewHeight) {
-      throw new IllegalArgumentException("Dimension cannot be negative");
+    if (x < 0 || y < 0 || x > Constants.VIEW_WIDTH || y > Constants.VIEW_HEIGHT) {
+      throw new IllegalArgumentException("Dimension is too large or too small");
     }
     setX(x);
     setY(y);
@@ -35,29 +37,28 @@ public final class Dimension {
 
 
   /**
-   * Sets the position as the given one.
+   * Sets the dimension as the given one. Set as default since it is only accessed within this
+   * package. Outside users should not be able to change a Dimension.
    *
    * @param d is the new position
    */
-  protected void setDimension(Dimension d) {
+  void setDimension(Dimension d) {
     setY(d.y);
     setX(d.x);
   }
 
   /**
-   * Returns a copy of the current x value of the dimension.
+   * Returns the x value.
    */
   public double getX() {
-    double r = this.x * 1;
-    return r;
+    return this.x;
   }
 
   /**
-   * Returns a copy of the current y value of the dimension.
+   * Returns they value.
    */
   public double getY() {
-    double r = this.y * 1;
-    return r;
+    return this.y;
   }
 
 
