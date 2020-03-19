@@ -24,9 +24,8 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     this.instructions = new HashMap<>();
   }
 
-
   @Override
-  public void playAnimation(int tick) {
+  public List<Shape> getShapesAt(int tick) {
     if (shapes.size() == 0) {
       throw new IllegalStateException("There are no shapes to animate in the game");
     }
@@ -34,16 +33,35 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
       throw new IllegalArgumentException("Tick cannot be negative");
     }
 
+    List<Shape> copy = new ArrayList<>();
+
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
 
       List<Instruction> instructs = e.getValue();
 
       for (Instruction i : instructs) {
         if (tick > i.getStartTick() && tick <= i.getEndTick()) {
-          e.getKey().applyInstruction(i);
+
+          Shape s = e.getKey().makeCopy();
+          playAnimation(s, i, tick);
+
+          copy.add(s);
         }
       }
     }
+
+    return copy;
+  }
+
+  /**
+   * Advances the state of the given shape according to which tick it is on, i.e., where the
+   * animation is in terms of time. It mutates the shape into the state at which that shape should
+   * be in according to the tick in the instruction given.
+   */
+  private void playAnimation(Shape shape, Instruction i, int tick) {
+
+
+    shape.applyInstructionToTick(i, tick);
   }
 
   @Override
@@ -100,8 +118,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
   private void addInstructToList(Instruction i, List<Instruction> instructs) {
     if (instructs.size() == 0) {
       instructs.add(i);
-      Shape s = shapes.get(i.getShapeName());
-      s.assignBeginningConditions(i);
+
     } else {
       canAddInstructions(i, instructs);
       instructs.add(i);
@@ -153,19 +170,11 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
 
   }
 
-  @Override
-  public Map<String, Shape> getShapes() {
-    HashMap<String, Shape> copy = new HashMap<>();
 
-    for (Map.Entry<String, Shape> entry : shapes.entrySet()) {
-      Shape s = entry.getValue().makeCopy();
-      String str = entry.getKey();
-      copy.put(str, s);
-    }
-    return copy;
-  }
 
-  @Override
+
+}
+/*@Override
   public Map<Shape, List<Instruction>> getInstructions() {
     HashMap<Shape, List<Instruction>> copy = new HashMap<>();
 
@@ -183,8 +192,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
       copy.put(s, newInstructions);
     }
     return copy;
-  }
-}
+  }*/
 
 //Extra functionality that might be needed later, so commented out for possible future  use.
   /*

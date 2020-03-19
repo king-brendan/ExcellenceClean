@@ -2,23 +2,16 @@ package assignment5;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Map;
 
 /**
- * An interface to include all the functionality required of a model for an animator.
+ * An interface to include all the functionality required of a model for an animator. Since
+ * assignment 5, we have updated our interface. First, we deleted the playAnimation(int tick) method
+ * as it mutates the shapes indefinitely. It will become a private method that helps with the new
+ * method, getShapesAt(int tick) described below. Moreover, we deleted the getShapes() and
+ * getInstructions() methods as they are no longer needed.
  */
 public interface ExcellenceOperations {
 
-
-  /**
-   * Advances the animation of the given model according to which tick it is on, i.e., where the
-   * animation is in terms of time.
-   *
-   * @throws IllegalStateException    if there is nothing to play in the game (no shapes in the
-   *                                  model)
-   * @throws IllegalArgumentException if the tick is negative.
-   */
-  public void playAnimation(int tick);
 
   /**
    * Renders the animation as text. Starts with a shape name and its type, then follows with a
@@ -65,16 +58,15 @@ public interface ExcellenceOperations {
   public void addShape(String shapeName, Shape.ShapeType shapeType);
 
   /**
-   * Returns a copy of the the shapes in the model as a Map of String to Shape representing the
-   * shapeName and the Shape, respectively.
+   * Returns a copy of the the shapes in the model in a List with their states updated to the
+   * specified tick. In other words, it returns a copy of the shapes with states that correspond to
+   * the tick given.
+   *
+   * @param tick is the tick at which the shape states are requested
+   * @throws IllegalStateException    if there are no shapes in the model
+   * @throws IllegalArgumentException if the tick is negative.
    */
-  public Map<String, Shape> getShapes();
-
-  /**
-   * Returns a copy of the shapes and their instructions as a Map of shape to list of instruction
-   * representing the Shape and its list of instructions, respectively.
-   */
-  public Map<Shape, List<Instruction>> getInstructions();
+  public List<Shape> getShapesAt(int tick);
 
 
 }

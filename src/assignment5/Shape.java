@@ -7,7 +7,10 @@ import java.util.Objects;
  * Represents a Shape object to be altered in the animation. Contains all the shape conditions such
  * as its name, type, position, dimension, and color at any point. It is an immutable object with
  * immutable fields. Outside the package, it is read-only such that only the constructor and getters
- * are accessible publicly which return immutable fields or copies of mutable fields.
+ * are accessible publicly which return immutable fields or copies of mutable fields. From
+ * assignment 5, we deleted assignBeginningConditions() since we have  no need for it anymore and
+ * changed the applyInstructionToTick method so that it accounts  for the tweening formula in
+ * assignment 6.
  */
 public final class Shape {
   private final String name;
@@ -75,56 +78,76 @@ public final class Shape {
     return s;
   }
 
-  /**
-   * Assigns the initial conditions of a shape from the start states of an instructions. Set as
-   * default since it will only happen within the model.
-   *
-   * @param instruction is the given instruction.
-   */
-  void assignBeginningConditions(Instruction instruction) {
-    position.setPosition(instruction.getStartPosition());
-    dimension.setDimension(instruction.getStartDimension());
-    color = instruction.getStartColor();
-  }
-
 
   /**
    * Applies the given instruction to the Shape. It will only apply a change to position, dimension,
-   * or color if there is one, and will apply a fraction of the change since the instruction is
-   * applied over several ticks. Set as default since it will only happen within the model.
+   * or color if there is one, and will apply a fraction of the change per tick since the
+   * instruction is applied over several ticks. Set as default since it will only happen within the
+   * model.
    *
    * @param instruction is the given Instruction
+   * @param tick        is the tick to which the instruction will be applied to
    * @throws IllegalArgumentException if the instruction is null.
    */
-  void applyInstruction(Instruction instruction) {
+  void applyInstructionToTick(Instruction instruction, int tick) {
     if (instruction == null) {
       throw new IllegalArgumentException("Instruction cannot be null");
     }
 
-    int tickDiff = instruction.getEndTick() - instruction.getStartTick();
+    double startConstant = getStartStateConstant(instruction.getStartTick(),
+            instruction.getEndTick(), tick);
+    double endConstant = getEndStateConstant(instruction.getStartTick(), instruction.getEndTick(),
+            tick);
 
-    changeColor(instruction.getStartColor(), instruction.getEndColor(), tickDiff);
-    changeDimension(instruction.getStartDimension(), instruction.getEndDimension(), tickDiff);
-    changePosition(instruction.getStartPosition(), instruction.getEndPosition(), tickDiff);
+    changeColor(instruction.getStartColor(), instruction.getEndColor(), startConstant, endConstant);
+    changeDimension(instruction.getStartDimension(), instruction.getEndDimension(), startConstant, endConstant);
+    changePosition(instruction.getStartPosition(), instruction.getEndPosition(), startConstant, endConstant);
+  }
+
+  /**
+   * Returns the constant to which the start state will be multiplied with, according to the linear
+   * interpolation formula given in assignment 6.
+   *
+   * @param currentTick is the current tick
+   * @param endTick     is the last tick in the instruction
+   * @param startTick   is the first tick in the instruction
+   */
+  private double getStartStateConstant(int startTick, int endTick, int currentTick) {
+    return (endTick - currentTick) / (endTick - startTick);
+  }
+
+  /**
+   * Returns the constant to which the end state will be multiplied with, according to the linear
+   * interpolation formula given in assignment 6.
+   *
+   * @param currentTick is the current tick
+   * @param endTick     is the last tick in the instruction
+   * @param startTick   is the first tick in the instruction
+   */
+  private double getEndStateConstant(int startTick, int endTick, int currentTick) {
+    return (currentTick - startTick) / (endTick - startTick);
   }
 
 
   /**
    * Changes the shape to the end color if it is different than the start color.
    *
-   * @param startColor is the starting color
-   * @param endColor   is the ending color
-   * @param tickDiff   is the value which the difference in start and end color is divided by.
+   * @param startColor    is the starting color
+   * @param endColor      is the ending color
+   * @param startConstant is the constant to be multiplied by the start state
+   * @param endConstant   is the constant to be multiplied by the end state
    */
-  private void changeColor(Color startColor, Color endColor, int tickDiff) {
+  private void changeColor(Color startColor, Color endColor, double startConstant,
+                           double endConstant) {
     if (!startColor.equals(endColor)) {
-      int rDiff = (endColor.getRed() - startColor.getRed()) / tickDiff;
-      int gDiff = (endColor.getGreen() - startColor.getGreen()) / tickDiff;
-      int bDiff = (endColor.getBlue() - startColor.getBlue()) / tickDiff;
+      double rDiff = endColor.getRed() * endConstant + startColor.getRed() * startConstant;
+      double gDiff = endColor.getGreen() * endConstant + startColor.getGreen() * startConstant;
+      double bDiff = endColor.getBlue() * endConstant + startColor.getBlue() * startConstant;
 
-      int newR = checkColorRange(getColor().getRed() + rDiff);
-      int newG = checkColorRange(getColor().getGreen() + gDiff);
-      int newB = checkColorRange(getColor().getBlue() + bDiff);
+      int newR = checkColorRange((int) rDiff);
+      int newG = checkColorRange((int) gDiff);
+      int newB = checkColorRange((int) bDiff);
+
       color = new Color(newR, newG, newB);
     }
   }
@@ -152,17 +175,18 @@ public final class Shape {
   /**
    * Changes the shape position to the end position if it is different than the start position.
    *
-   * @param startPos is the Starting position
-   * @param endPos   is the ending Position
-   * @param tickDiff is the value which the difference in start and end position is divided by.
+   * @param startPos      is the Starting position
+   * @param endPos        is the ending Position
+   * @param startConstant is the constant to be multiplied by the start state
+   * @param endConstant   is the constant to be multiplied by the end state
    */
-  private void changePosition(Position startPos, Position endPos, int tickDiff) {
+  private void changePosition(Position startPos, Position endPos, double startConstant,
+                              double endConstant) {
     if (!startPos.equals(endPos)) {
-      double xDiff = (endPos.getX() - startPos.getX()) / tickDiff;
-      double yDiff = (endPos.getY() - startPos.getY()) / tickDiff;
+      double newX = endPos.getX() * endConstant + startPos.getX() * startConstant;
+      double newY = endPos.getY() * endConstant + startPos.getY() * startConstant;
 
-      Position newPos = new Position(getPosition().getX() + xDiff,
-              getPosition().getY() + yDiff);
+      Position newPos = new Position(newX, newY);
 
       this.position.setPosition(newPos);
     }
@@ -173,18 +197,19 @@ public final class Shape {
    * Changes the dimension of the shape to the end dimension if it is different than the start
    * dimension.
    *
-   * @param startDim is the current Dimension.
-   * @param endDim   the new dimension to be set.
-   * @param tickDiff is the value which the difference in start and end dimension is divided by.
+   * @param startDim      is the current Dimension.
+   * @param endDim        the new dimension to be set.
+   * @param startConstant is the constant to be multiplied by the start state
+   * @param endConstant   is the constant to be multiplied by the end state
    */
-  private void changeDimension(Dimension startDim, Dimension endDim, int tickDiff) {
+  private void changeDimension(Dimension startDim, Dimension endDim, double startConstant,
+                               double endConstant) {
 
     if (!startDim.equals(endDim)) {
-      double xDiff = (endDim.getX() - startDim.getX()) / tickDiff;
-      double yDiff = (endDim.getY() - startDim.getY()) / tickDiff;
+      double newX = endDim.getX() * endConstant + startDim.getX() * startConstant;
+      double newY = endDim.getY() * endConstant + startDim.getY() * startConstant;
 
-      Dimension newDim = new Dimension(getDimension().getX() + xDiff,
-              getDimension().getY() + yDiff);
+      Dimension newDim = new Dimension(newX, newY);
 
       this.dimension.setDimension(newDim);
     }
