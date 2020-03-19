@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * An interface to include all the functionality required of a model for an animator. Since
  * assignment 5, we have updated our interface. First, we deleted the playAnimation(int tick) method
- * as it mutates the shapes indefinitely. It will become a private method that helps with the new
- * method, getShapesAt(int tick) described below. Moreover, we deleted the getShapes() and
- * getInstructions() methods as they are no longer needed.
+ * as it mutates the shapes indefinitely. We added a new method instead, getShapesAt(int tick)
+ * described below. Moreover, we deleted the getShapes() and getInstructions() methods as they are
+ * no longer needed.
  */
 public interface ExcellenceOperations {
 

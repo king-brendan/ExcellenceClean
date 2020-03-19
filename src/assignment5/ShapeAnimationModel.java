@@ -40,10 +40,10 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
       List<Instruction> instructs = e.getValue();
 
       for (Instruction i : instructs) {
-        if (tick > i.getStartTick() && tick <= i.getEndTick()) {
+        if (tick >= i.getStartTick() && tick < i.getEndTick()) {
 
           Shape s = e.getKey().makeCopy();
-          playAnimation(s, i, tick);
+          s.applyInstructionToTick(i, tick);
 
           copy.add(s);
         }
@@ -53,16 +53,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     return copy;
   }
 
-  /**
-   * Advances the state of the given shape according to which tick it is on, i.e., where the
-   * animation is in terms of time. It mutates the shape into the state at which that shape should
-   * be in according to the tick in the instruction given.
-   */
-  private void playAnimation(Shape shape, Instruction i, int tick) {
 
-
-    shape.applyInstructionToTick(i, tick);
-  }
 
   @Override
   public String toText() {

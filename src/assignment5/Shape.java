@@ -94,14 +94,18 @@ public final class Shape {
       throw new IllegalArgumentException("Instruction cannot be null");
     }
 
-    double startConstant = getStartStateConstant(instruction.getStartTick(),
-            instruction.getEndTick(), tick);
-    double endConstant = getEndStateConstant(instruction.getStartTick(), instruction.getEndTick(),
-            tick);
+    double startConstant = getStartStateConstant(instruction.getStartTick() * 1.0,
+            instruction.getEndTick() * 1.0, tick * 1.0);
+    double endConstant = getEndStateConstant(instruction.getStartTick() * 1.0,
+            instruction.getEndTick() * 1.0,
+            tick * 1.0);
 
-    changeColor(instruction.getStartColor(), instruction.getEndColor(), startConstant, endConstant);
-    changeDimension(instruction.getStartDimension(), instruction.getEndDimension(), startConstant, endConstant);
-    changePosition(instruction.getStartPosition(), instruction.getEndPosition(), startConstant, endConstant);
+    this.changeColor(instruction.getStartColor(), instruction.getEndColor(), startConstant,
+            endConstant);
+    this.changeDimension(instruction.getStartDimension(), instruction.getEndDimension(),
+            startConstant, endConstant);
+    this.changePosition(instruction.getStartPosition(), instruction.getEndPosition(), startConstant,
+            endConstant);
   }
 
   /**
@@ -112,7 +116,7 @@ public final class Shape {
    * @param endTick     is the last tick in the instruction
    * @param startTick   is the first tick in the instruction
    */
-  private double getStartStateConstant(int startTick, int endTick, int currentTick) {
+  private double getStartStateConstant(double startTick, double endTick, double currentTick) {
     return (endTick - currentTick) / (endTick - startTick);
   }
 
@@ -124,7 +128,7 @@ public final class Shape {
    * @param endTick     is the last tick in the instruction
    * @param startTick   is the first tick in the instruction
    */
-  private double getEndStateConstant(int startTick, int endTick, int currentTick) {
+  private double getEndStateConstant(double startTick, double endTick, double currentTick) {
     return (currentTick - startTick) / (endTick - startTick);
   }
 
@@ -139,17 +143,17 @@ public final class Shape {
    */
   private void changeColor(Color startColor, Color endColor, double startConstant,
                            double endConstant) {
-    if (!startColor.equals(endColor)) {
-      double rDiff = endColor.getRed() * endConstant + startColor.getRed() * startConstant;
-      double gDiff = endColor.getGreen() * endConstant + startColor.getGreen() * startConstant;
-      double bDiff = endColor.getBlue() * endConstant + startColor.getBlue() * startConstant;
 
-      int newR = checkColorRange((int) rDiff);
-      int newG = checkColorRange((int) gDiff);
-      int newB = checkColorRange((int) bDiff);
+    double rDiff = endColor.getRed() * endConstant + startColor.getRed() * startConstant;
+    double gDiff = endColor.getGreen() * endConstant + startColor.getGreen() * startConstant;
+    double bDiff = endColor.getBlue() * endConstant + startColor.getBlue() * startConstant;
 
-      color = new Color(newR, newG, newB);
-    }
+    int newR = checkColorRange((int) rDiff);
+    int newG = checkColorRange((int) gDiff);
+    int newB = checkColorRange((int) bDiff);
+
+    this.color = new Color(newR, newG, newB);
+
   }
 
 
@@ -182,14 +186,14 @@ public final class Shape {
    */
   private void changePosition(Position startPos, Position endPos, double startConstant,
                               double endConstant) {
-    if (!startPos.equals(endPos)) {
-      double newX = endPos.getX() * endConstant + startPos.getX() * startConstant;
-      double newY = endPos.getY() * endConstant + startPos.getY() * startConstant;
 
-      Position newPos = new Position(newX, newY);
+    double newX = startPos.getX() * startConstant + endPos.getX() * endConstant;
+    double newY = startPos.getY() * startConstant + endPos.getY() * endConstant;
 
-      this.position.setPosition(newPos);
-    }
+    Position newPos = new Position(newX, newY);
+
+    this.position.setPosition(newPos);
+
 
   }
 
@@ -205,14 +209,14 @@ public final class Shape {
   private void changeDimension(Dimension startDim, Dimension endDim, double startConstant,
                                double endConstant) {
 
-    if (!startDim.equals(endDim)) {
-      double newX = endDim.getX() * endConstant + startDim.getX() * startConstant;
-      double newY = endDim.getY() * endConstant + startDim.getY() * startConstant;
 
-      Dimension newDim = new Dimension(newX, newY);
+    double newX = endDim.getX() * endConstant + startDim.getX() * startConstant;
+    double newY = endDim.getY() * endConstant + startDim.getY() * startConstant;
 
-      this.dimension.setDimension(newDim);
-    }
+    Dimension newDim = new Dimension(newX, newY);
+
+    this.dimension.setDimension(newDim);
+
   }
 
   /**
