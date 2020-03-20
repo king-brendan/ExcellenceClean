@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cs3500.animator.util.AnimationBuilder;
+
 /**
  * A concrete implementation of the ExcellenceOperations interface. It is an immutable object that
  * includes immutable fields for the shapes and Instructions represented as Maps. It is a cs3500.animator.model for
@@ -161,8 +163,57 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
 
   }
 
+  public static final class Builder implements AnimationBuilder<ExcellenceOperations> {
+    ExcellenceOperations e;
 
+    @Override
+    public ExcellenceOperations build() {
+      e = new ShapeAnimationModel();
+      return e;
+    }
 
+    @Override
+    public AnimationBuilder<ExcellenceOperations> setBounds(int x, int y, int width, int height) {
+      return null;
+    }
+
+    @Override
+    public AnimationBuilder<ExcellenceOperations> declareShape(String name, String type) {
+      Shape.ShapeType s = Shape.getType(type);
+      e.addShape(name, s);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<ExcellenceOperations> addMotion(String name, int t1, int x1, int y1,
+                                                            int w1, int h1, int r1, int g1, int b1,
+                                                            int t2, int x2, int y2, int w2, int h2,
+                                                            int r2, int g2, int b2) {
+      Position p1;
+      Position p2;
+      Dimension d1;
+      Dimension d2;
+      Color c1;
+      Color c2;
+      try {
+         p1 = new Position(x1, y1);
+         p2 = new Position(x2, y2);
+         d1 = new Dimension(w1, h1);
+         d2 = new Dimension(w2, h2);
+         c1 = new Color(r1, g1, b1);
+         c2 = new Color(r2, g2, b2);
+      } catch (IllegalArgumentException exc) {
+        throw new IllegalArgumentException("Illegal parameters: " + exc.getMessage());
+      }
+      e.addInstruction(name, t1, t2, p1, p2, d1, d2, c1, c2);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<ExcellenceOperations> addKeyframe(String name, int t, int x, int y, int w, int h, int r, int g, int b) {
+      return null;
+    }
+  }
 
 }
 /*@Override

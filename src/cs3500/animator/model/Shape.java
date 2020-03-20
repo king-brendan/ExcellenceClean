@@ -28,7 +28,7 @@ public final class Shape {
    * well.
    */
   public enum ShapeType {
-    RECTANGLE, OVAL, TRIANGLE;
+    RECTANGLE, OVAL;
 
 
     @Override
@@ -37,11 +37,28 @@ public final class Shape {
         return "rectangle";
       } else if (this.equals(ShapeType.OVAL)) {
         return "oval";
-      } else if (this.equals(ShapeType.TRIANGLE)) {
-        return "triangle";
       } else {
         return "Please assign a toString to the ShapeType";
       }
+    }
+  }
+
+  /**
+   * Returns the ShapeType corresponding to the given String.
+   *
+   * @param s the String describing the ShapeType.
+   * @return the corresponding ShapeType.
+   * @throws IllegalArgumentException if the shape type name is invalid or if the parameters are
+   * null.
+   */
+  //TODO: change to a switch statement if possible
+  public static ShapeType getType(String s) {
+    if (s.equals(ShapeType.RECTANGLE.toString())) {
+      return ShapeType.RECTANGLE;
+    } else if (s.equals(ShapeType.OVAL.toString())) {
+      return ShapeType.OVAL;
+    } else {
+      throw new IllegalArgumentException("Invalid shape type");
     }
   }
 

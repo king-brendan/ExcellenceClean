@@ -10,17 +10,7 @@ import java.util.List;
  * described below. Moreover, we deleted the getShapes() and getInstructions() methods as they are
  * no longer needed.
  */
-public interface ExcellenceOperations {
-
-
-  /**
-   * Renders the animation as text. Starts with a shape name and its type, then follows with a
-   * representation of the Instructions that that shape has in order of ticks. Appends all shapes
-   * and their instructions in a similar fashion to the output.
-   *
-   * @return the animation, rendered as text.
-   */
-  public String toText();
+public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
 
   /**
    * Creates an instruction given the right parameters then adds the Instruction to the list of
@@ -56,17 +46,6 @@ public interface ExcellenceOperations {
    * @throws IllegalArgumentException if any of the arguments are null
    */
   public void addShape(String shapeName, Shape.ShapeType shapeType);
-
-  /**
-   * Returns a copy of the the shapes in the cs3500.animator.model in a List with their states updated to the
-   * specified tick. In other words, it returns a copy of the shapes with states that correspond to
-   * the tick given.
-   *
-   * @param tick is the tick at which the shape states are requested
-   * @throws IllegalStateException    if there are no shapes in the cs3500.animator.model
-   * @throws IllegalArgumentException if the tick is negative.
-   */
-  public List<Shape> getShapesAt(int tick);
 
 
 }
