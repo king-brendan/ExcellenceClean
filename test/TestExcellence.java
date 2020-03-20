@@ -1,39 +1,42 @@
 import org.junit.Test;
 
 import java.awt.Color;
+import java.util.List;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import assignment5.Constants;
-import assignment5.Dimension;
-import assignment5.ExcellenceOperations;
+import cs3500.animator.model.Constants;
+import cs3500.animator.model.Dimension;
+import cs3500.animator.model.ExcellenceOperations;
 
-import assignment5.Position;
-import assignment5.Shape;
-import assignment5.ShapeAnimationModel;
+import cs3500.animator.model.Position;
+import cs3500.animator.model.Shape;
+import cs3500.animator.model.ShapeAnimationModel;
 
 
 /**
- * Methods for testing the functionality of our shape animator model to make sure it is without bugs
- * and runs smoothly according to its interface.
+ * Methods for testing the functionality of our shape animator cs3500.animator.model to make sure it is without bugs
+ * and runs smoothly according to its interface. Changed our tests from Assignment 5 to include
+ * getShapesAt(int tick) and deleted tests for old methods.
  */
 public class TestExcellence {
-  ExcellenceOperations hwExample;
+  private ExcellenceOperations hwExample;
 
-  Position p200x200;
-  Position p10x200;
-  Position p300x300;
-  Position p440x70;
-  Position p440x250;
-  Position p440x370;
+  private Position p200x200;
+  private Position p10x200;
+  private Position p300x300;
+  private Position p440x70;
+  private Position p440x250;
+  private Position p440x370;
 
-  Dimension d50x100;
-  Dimension d25x100;
-  Dimension d120x60;
+  private Dimension d50x100;
+  private Dimension d25x100;
+  private Dimension d120x60;
 
   Color greenBlue;
 
@@ -97,29 +100,19 @@ public class TestExcellence {
             "a new line after the last shape and its instructions. \nAfter the first example, I " +
             "added the spaces so you see the second example more clearly: \n\n");
 
-    assertEquals("shape C oval\n" +
-                    "motion C 6 440.0 70.0 120.0 60.0 0 0 255     " +
-                    "20 440.0 70.0 120.0 60.0 0 0 255\n" +
-                    "motion C 20 440.0 70.0 120.0 60.0 0 0 255     " +
-                    "50 440.0 250.0 120.0 60.0 0 0 255\n" +
-                    "motion C 50 440.0 250.0 120.0 60.0 0 0 255     " +
-                    "70 440.0 370.0 120.0 60.0 5 60 73\n" +
-                    "motion C 70 440.0 370.0 120.0 60.0 5 60 73     " +
-                    "80 440.0 370.0 120.0 60.0 0 255 0\n" +
-                    "motion C 80 440.0 370.0 120.0 60.0 0 255 0     " +
-                    "100 440.0 370.0 120.0 60.0 0 255 0\n\n" +
-                    "shape R rectangle\n" +
-                    "motion R 1 200.0 200.0 50.0 100.0 255 0 0     " +
-                    "10 10.0 200.0 50.0 100.0 255 0 0\n" +
-                    "motion R 10 10.0 200.0 50.0 100.0 255 0 0     " +
-                    "50 300.0 300.0 50.0 100.0 255 0 0\n" +
-                    "motion R 50 300.0 300.0 50.0 100.0 255 0 0     " +
-                    "51 300.0 300.0 50.0 100.0 255 0 0\n" +
-                    "motion R 51 300.0 300.0 50.0 100.0 255 0 0     " +
-                    "70 300.0 300.0 25.0 100.0 255 0 0\n" +
-                    "motion R 70 300.0 300.0 25.0 100.0 255 0 0     " +
-                    "100 200.0 200.0 25.0 100.0 255 0 0",
-            hwExample.toText());
+    assertTrue(
+            hwExample.toText().contains("shape R rectangle\n" +
+                    "motion R 1 200.0 200.0 50.0 100.0 255 0 0     10 10.0 200.0 50.0 100.0 255 0 0\n" +
+                    "motion R 10 10.0 200.0 50.0 100.0 255 0 0     50 300.0 300.0 50.0 100.0 255 0 0\n" +
+                    "motion R 50 300.0 300.0 50.0 100.0 255 0 0     51 300.0 300.0 50.0 100.0 255 0 0\n" +
+                    "motion R 51 300.0 300.0 50.0 100.0 255 0 0     70 300.0 300.0 25.0 100.0 255 0 0\n" +
+                    "motion R 70 300.0 300.0 25.0 100.0 255 0 0     100 200.0 200.0 25.0 100.0 " +
+                    "255 0 0") && hwExample.toText().contains("shape C oval\n" +
+                    "motion C 6 440.0 70.0 120.0 60.0 0 0 255     20 440.0 70.0 120.0 60.0 0 0 255\n" +
+                    "motion C 20 440.0 70.0 120.0 60.0 0 0 255     50 440.0 250.0 120.0 60.0 0 0 255\n" +
+                    "motion C 50 440.0 250.0 120.0 60.0 0 0 255     70 440.0 370.0 120.0 60.0 5 60 73\n" +
+                    "motion C 70 440.0 370.0 120.0 60.0 5 60 73     80 440.0 370.0 120.0 60.0 0 255 0\n" +
+                    "motion C 80 440.0 370.0 120.0 60.0 0 255 0     100 440.0 370.0 120.0 60.0 0 255 0"));
 
     System.out.print(hwExample.toText());
     System.out.print("\n\n\n\nFor the Second Example:\n\n");
@@ -128,34 +121,8 @@ public class TestExcellence {
     hwExample.addInstruction("T", 1, 10,
             p200x200, p10x200, d50x100, d50x100, Color.RED, Color.RED);
 
-    assertEquals("shape C oval\n" +
-                    "motion C 6 440.0 70.0 120.0 60.0 0 0 255     " +
-                    "20 440.0 70.0 120.0 60.0 0 0 255\n" +
-                    "motion C 20 440.0 70.0 120.0 60.0 0 0 255     " +
-                    "50 440.0 250.0 120.0 60.0 0 0 255\n" +
-                    "motion C 50 440.0 250.0 120.0 60.0 0 0 255     " +
-                    "70 440.0 370.0 120.0 60.0 5 60 73\n" +
-                    "motion C 70 440.0 370.0 120.0 60.0 5 60 73     " +
-                    "80 440.0 370.0 120.0 60.0 0 255 0\n" +
-                    "motion C 80 440.0 370.0 120.0 60.0 0 255 0     " +
-                    "100 440.0 370.0 120.0 60.0 0 255 0\n\n" +
-                    "shape T triangle\n" +
-                    "motion T 1 200.0 200.0 50.0 100.0 255 0 0     " +
-                    "10 10.0 200.0 50.0 100.0 255 0" +
-                    " 0\n" +
-                    "\n" +
-                    "shape R rectangle\n" +
-                    "motion R 1 200.0 200.0 50.0 100.0 255 0 0     " +
-                    "10 10.0 200.0 50.0 100.0 255 0 0\n" +
-                    "motion R 10 10.0 200.0 50.0 100.0 255 0 0     " +
-                    "50 300.0 300.0 50.0 100.0 255 0 0\n" +
-                    "motion R 50 300.0 300.0 50.0 100.0 255 0 0     " +
-                    "51 300.0 300.0 50.0 100.0 255 0 0\n" +
-                    "motion R 51 300.0 300.0 50.0 100.0 255 0 0     " +
-                    "70 300.0 300.0 25.0 100.0 255 0 0\n" +
-                    "motion R 70 300.0 300.0 25.0 100.0 255 0 0     " +
-                    "100 200.0 200.0 25.0 100.0 255 0 0",
-            hwExample.toText());
+    assertTrue(hwExample.toText().contains("shape T triangle\n" +
+            "motion T 1 200.0 200.0 50.0 100.0 255 0 0     10 10.0 200.0 50.0 100.0 255 0 0\n" ));
 
     System.out.print(hwExample.toText());
 
@@ -163,74 +130,46 @@ public class TestExcellence {
 
 
   @Test
-  public void testPlayAnimationTick1ChangesNothing() {
+  public void testGetShapesAtTickWithTweening() {
     initExamples();
-    hwExample.playAnimation(1);
 
-    Shape r = hwExample.getShapes().get("R");
+    List<Shape> shapes = hwExample.getShapesAt(9);
 
-    assertEquals(p200x200, r.getPosition());
-    assertEquals(d50x100, r.getDimension());
-    assertEquals(Color.RED, r.getColor());
-
-  }
-
-  @Test
-  public void testPlayAnimation() {
-    initExamples();
-    hwExample.playAnimation(0);
-    hwExample.playAnimation(1);
-    hwExample.playAnimation(2);
-
-    Shape r = hwExample.getShapes().get("R");
+    Shape r = shapes.get(shapes.indexOf(new Shape("R", Shape.ShapeType.RECTANGLE)));
 
     //Since the ticks are changing the shape's position using doubles with decimals, and the total
     // change per tick around 21.1 which is >> 1, I can use 1 as delta to make sure that the change
     // is happening without finding the exact X value of the position.
-    assertEquals(179, r.getPosition().getX(), 1);
+    assertEquals(31, r.getPosition().getX(), 1);
+    assertEquals(200, r.getPosition().getY(), 1);
 
-    for (int i = 3; i < 11; i++) {
-      hwExample.playAnimation(i);
-    }
+    shapes = hwExample.getShapesAt(10);
+    r = shapes.get(shapes.indexOf(new Shape("R", Shape.ShapeType.RECTANGLE)));
 
-    Shape r2 = hwExample.getShapes().get("R");
-    assertEquals(p10x200, r2.getPosition());
-    assertEquals(d50x100, r2.getDimension());
-    assertEquals(Color.RED, r2.getColor());
+    assertEquals(p10x200, r.getPosition());
+    assertEquals(d50x100, r.getDimension());
+    assertEquals(Color.RED, r.getColor());
 
-    for (int i = 11; i < 21; i++) {
-      hwExample.playAnimation(i);
-    }
+    shapes = hwExample.getShapesAt(20);
 
-    Shape c = hwExample.getShapes().get("C");
+    Shape c = shapes.get(shapes.indexOf(new Shape("C", Shape.ShapeType.OVAL)));
     assertEquals(p440x70, c.getPosition());
     assertEquals(d120x60, c.getDimension());
     assertEquals(Color.BLUE, c.getColor());
 
-    //to test that a tick outside of range does nothing:
-    hwExample.playAnimation(200);
-    assertEquals(p440x70, c.getPosition());
-    assertEquals(d120x60, c.getDimension());
-    assertEquals(Color.BLUE, c.getColor());
-
-    for (int i = 21; i < 51; i++) {
-      hwExample.playAnimation(i);
-    }
-
-    Shape c2 = hwExample.getShapes().get("C");
-    assertEquals(p440x250, c2.getPosition());
-    assertEquals(d120x60, c2.getDimension());
-    assertEquals(Color.BLUE, c2.getColor());
+    //to test that a tick outside of range returns nothing:
+    shapes = hwExample.getShapesAt(200);
+    assertEquals(0, shapes.size());
 
 
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlayGameWithNoInstructions() {
-    new ShapeAnimationModel().playAnimation(1);
+    new ShapeAnimationModel().getShapesAt(1);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  /*@Test(expected = IllegalArgumentException.class)
   public void testPlayGameWithNegativeTick() {
     this.initExamples();
     hwExample.playAnimation(-1);
@@ -257,7 +196,7 @@ public class TestExcellence {
             d120x60, d120x60, greenBlue, greenBlue);
     assertEquals(1, hwExample.getInstructions().get(t).size());
   }
-
+*/
   @Test(expected = IllegalArgumentException.class)
   public void testAddInvalidInstructionStartTick() {
     initExamples();

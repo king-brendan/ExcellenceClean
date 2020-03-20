@@ -1,0 +1,33 @@
+The following is a description of all classes, interfaces, and enums used in our cs3500.animator.model, as well
+as their functionality.
+
+The ExcellenceOperations interface represents all of the functionality required of an animator
+cs3500.animator.model class. Objects of type ExcellenceOperations have methods that allow the user to add
+shapes to the animation, add instructions for those shapes, render the animation as text, and
+"play" the animation at a certain tick (time unit) - that is, make the appropriate changes to the
+specified shape at that time. The ShapeAnimationModel class implements the ExcellenceOperations
+interface, and all functionality specified above. The ShapeAnimationModel class keeps track of the
+various shapes and the instructions associated with them using two fields, "shapes" and
+"instructions". The shapes map maps all shapes to their names as Strings, and the instructions map
+maps all Shapes to their list of instructions to be performed.
+
+The Instruction class represents an instruction to change the state of an object. If the controller
+wants to instruct the cs3500.animator.model to add a new shape, they use the addShape method in the interface, and
+if the user wants to instruct the cs3500.animator.model to change the state of an existing shape over a certain time
+period, they use the adInstruction method in the interface. Objects of type Instruction contain
+information on the name of the shape being changed, and the beginning and end states of that shape.
+Instructions can only be added for a shape if its beginning state is the same as the end state of
+the last instruction for that shape.
+
+The Shape class represents a shape that is changed in the animation. Since the attributes of a shape
+that can be changed in the animation are shared by every shape (dimension, position, color), every
+shape can be represented by one class, without the need for extension. The shape type (rectangle,
+oval, etc) is represented as a field in the shape class, of type ShapeType (an enum that can be
+easily added to to include more shapes). Since all shapes are added to the animation with no initial
+state defined, there is only one constructor, which takes in a name and a ShapeType.
+
+The Position and Dimension classes both represent the position and dimension of a shape,
+respectively. They both have two fields, that represent their x and y values. The constants class
+defines several constant values that get used throughout the program. The TestExcellence class
+contains tests that check the functionality of the cs3500.animator.model and check that integrity constraints
+are met.
