@@ -15,7 +15,7 @@ public final class Position {
    * @throws IllegalArgumentException if the arguments given are out of bounds.
    */
   public Position(double x, double y) {
-    if (x < 0 || y < 0 || x > Constants.VIEW_WIDTH || y > Constants.VIEW_HEIGHT) {
+    if (x < 0 || y < 0) {
       throw new IllegalArgumentException("Position is out of bounds");
     }
     setX(x);

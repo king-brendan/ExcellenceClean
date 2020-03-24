@@ -10,12 +10,16 @@ import cs3500.animator.util.AnimationBuilder;
 
 /**
  * A concrete implementation of the ExcellenceOperations interface. It is an immutable object that
- * includes immutable fields for the shapes and Instructions represented as Maps. It is a cs3500.animator.model for
- * an animator that creates an animation based on user string input detailing the animation.
+ * includes immutable fields for the shapes and Instructions represented as Maps. It is a
+ * cs3500.animator.model for an animator that creates an animation based on user string input
+ * detailing the animation.
  */
 public final class ShapeAnimationModel implements ExcellenceOperations {
   private final Map<String, Shape> shapes;
   private final Map<Shape, List<Instruction>> instructions;
+  private final Position topLeft;
+  private double width;
+  private double height;
 
 
   /**
@@ -24,6 +28,9 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
   public ShapeAnimationModel() {
     this.shapes = new HashMap<>();
     this.instructions = new HashMap<>();
+    this.topLeft = new Position(0, 0);
+    this.width = 1000;
+    this.height = 1000;
   }
 
   @Override
@@ -54,7 +61,6 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
 
     return copy;
   }
-
 
 
   @Override
@@ -163,18 +169,39 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
 
   }
 
+  @Override
+  public void setTopLeft(int x, int y) {
+    this.topLeft.setPosition(new Position(x, y));
+  }
+
+  @Override
+  public void setHeight(double height) {
+    this.height = height;
+  }
+
+  @Override
+  public void setWidth(double width) {
+    this.width = width;
+  }
+
   public static final class Builder implements AnimationBuilder<ExcellenceOperations> {
     ExcellenceOperations e;
 
+    public Builder() {
+      e = new ShapeAnimationModel();
+    }
+
     @Override
     public ExcellenceOperations build() {
-      e = new ShapeAnimationModel();
       return e;
     }
 
     @Override
     public AnimationBuilder<ExcellenceOperations> setBounds(int x, int y, int width, int height) {
-      return null;
+      this.e.setTopLeft(x, y);
+      this.e.setHeight(height);
+      this.e.setWidth(width);
+      return this;
     }
 
     @Override
@@ -196,12 +223,12 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
       Color c1;
       Color c2;
       try {
-         p1 = new Position(x1, y1);
-         p2 = new Position(x2, y2);
-         d1 = new Dimension(w1, h1);
-         d2 = new Dimension(w2, h2);
-         c1 = new Color(r1, g1, b1);
-         c2 = new Color(r2, g2, b2);
+        p1 = new Position(x1, y1);
+        p2 = new Position(x2, y2);
+        d1 = new Dimension(w1, h1);
+        d2 = new Dimension(w2, h2);
+        c1 = new Color(r1, g1, b1);
+        c2 = new Color(r2, g2, b2);
       } catch (IllegalArgumentException exc) {
         throw new IllegalArgumentException("Illegal parameters: " + exc.getMessage());
       }

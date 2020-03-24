@@ -47,5 +47,11 @@ public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
    */
   public void addShape(String shapeName, Shape.ShapeType shapeType);
 
+  public void setTopLeft(int x, int y);
+
+  public void setHeight(double height);
+
+  public void setWidth(double width);
+
 
 }

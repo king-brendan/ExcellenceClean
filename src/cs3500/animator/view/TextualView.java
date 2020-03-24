@@ -1,13 +1,19 @@
 package cs3500.animator.view;
 
-import javax.swing.*;
+
+import cs3500.animator.model.ReadOnlyExcellenceOperations;
 
 /**
  * A view that
  */
 public class TextualView implements AnimatorView {
-  private JPanel panel;
+  ReadOnlyExcellenceOperations readOnlyModel;
+  Appendable ap;
 
+  TextualView(ReadOnlyExcellenceOperations model, Appendable ap) {
+    readOnlyModel = model;
+    this.ap = ap;
+  }
   @Override
   public void refresh() {
 

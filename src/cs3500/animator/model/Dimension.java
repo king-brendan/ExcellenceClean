@@ -18,7 +18,7 @@ public final class Dimension {
    * @throws IllegalArgumentException if the dimension values are negative or too big.
    */
   public Dimension(double x, double y) {
-    if (x < 0 || y < 0 || x > Constants.VIEW_WIDTH || y > Constants.VIEW_HEIGHT) {
+    if (x < 0 || y < 0) {
       throw new IllegalArgumentException("Dimension is too large or too small");
     }
     setX(x);
