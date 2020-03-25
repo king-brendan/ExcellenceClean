@@ -28,6 +28,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
   public ShapeAnimationModel() {
     this.shapes = new HashMap<>();
     this.instructions = new HashMap<>();
+
     this.topLeft = new Position(0, 0);
     this.width = 1000;
     this.height = 1000;
@@ -245,45 +246,43 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     this.width = width;
   }
 
-
-
-}
-/*@Override
-  public Map<Shape, List<Instruction>> getInstructions() {
-    HashMap<Shape, List<Instruction>> copy = new HashMap<>();
-
-    for (Map.Entry<Shape, List<Instruction>> entry : instructions.entrySet()) {
-      Shape s = entry.getKey().makeCopy();
-
-      List<Instruction> newInstructions = new ArrayList<>();
-      for (Instruction i : entry.getValue()) {
-
-        Instruction newI = new Instruction(i.getShapeName(), i.getStartTick(), i.getEndTick(),
-                i.getStartPosition(), i.getEndPosition(), i.getStartDimension(), i.getEndDimension()
-                , i.getStartColor(), i.getEndColor());
-        newInstructions.add(newI);
-      }
-      copy.put(s, newInstructions);
-    }
-    return copy;
-  }*/
-
-//Extra functionality that might be needed later, so commented out for possible future  use.
-  /*
+  @Override
   public int getLastTick() {
     int tick = 0;
 
     for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
+      try {
+        List<Instruction> instructs = e.getValue();
+        int endTick = instructs.get(instructs.size() - 1).getEndTick();
 
-      List<Instruction> instructs = e.getValue();
-      int endTick = instructs.get(instructs.size() - 1).getEndTick();
-
-      if (endTick > tick) {
-        tick = endTick;
+        if (endTick > tick) {
+          tick = endTick;
+        }
+      } catch (IndexOutOfBoundsException ioe) {
+        /*
+        Does nothing as variable 'tick' already has some value.
+         */
       }
     }
 
     return tick;
-  }*/
+  }
+
+  @Override
+  public double getWidth() {
+    return width;
+  }
+
+  @Override
+  public double getHeight() {
+    return height;
+  }
+
+  @Override
+  public Position getTopLeft() {
+    return new Position(topLeft);
+  }
+}
+
 
 

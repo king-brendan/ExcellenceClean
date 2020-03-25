@@ -3,7 +3,8 @@ package cs3500.animator.model;
 /**
  * Represents the x and y dimensions of a Shape. This will be used to draw the shape with the
  * correct dimensions. While every shape is different, an X and Y value are enough represent how it
- * will be shown/drawn.
+ * will be shown/drawn. There were restrictions on this class's constructor, but were taken down as
+ * a negative dimension can be dealt with in the view.
  */
 public final class Dimension {
   private double x;
@@ -15,12 +16,8 @@ public final class Dimension {
    *
    * @param x is the x value.
    * @param y is the y value.
-   * @throws IllegalArgumentException if the dimension values are negative or too big.
    */
   public Dimension(double x, double y) {
-    if (x < 0 || y < 0) {
-      throw new IllegalArgumentException("Dimension is too large or too small");
-    }
     setX(x);
     setY(y);
   }

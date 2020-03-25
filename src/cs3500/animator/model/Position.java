@@ -1,9 +1,11 @@
 package cs3500.animator.model;
 
 /**
- * A class to represent the position of a shape within our cs3500.animator.model space.
+ * A class to represent the position of a shape within our cs3500.animator.model space. There were
+ * restrictions on this class's constructor, but were taken down * as a negative position can be
+ * dealt with in the view.
  */
-public final class Position{
+public final class Position {
   private double x;
   private double y;
 
@@ -12,12 +14,8 @@ public final class Position{
    *
    * @param x is the x value.
    * @param y is the y value.
-   * @throws IllegalArgumentException if the arguments given are out of bounds.
    */
   public Position(double x, double y) {
-    if (x < 0 || y < 0) {
-      throw new IllegalArgumentException("Position is out of bounds");
-    }
     setX(x);
     setY(y);
   }

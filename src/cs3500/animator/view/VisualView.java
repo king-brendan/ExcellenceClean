@@ -10,7 +10,10 @@ import cs3500.animator.model.ReadOnlyExcellenceOperations;
 
 
 /**
- * A view that draws and plays the animation inside of a Java Swing window.
+ * A view that draws and plays the shapes in the animation inside of a Java Swing Panel. It has a
+ * timer and animation speed that determine when the next 'tick' in the animation occurs. According
+ * to that, it refreshes the model information to the panel and redraws itself using an
+ * AnimationTask.
  */
 public class VisualView extends JFrame implements AnimatorView {
   private VWPanel panel;
@@ -19,17 +22,25 @@ public class VisualView extends JFrame implements AnimatorView {
   private double speed;
   private int tick;
 
+  /**
+   * A public constructor for a Visual View that takes in the readonly model and the speed at which
+   * the animation should be played.
+   *
+   * @param readOnlyModel the model
+   * @param speed         the speed of the animation
+   */
   public VisualView(ReadOnlyExcellenceOperations readOnlyModel, double speed) {
-    setSize(500, 500);
-    setLocation(0,0);
-
     model = readOnlyModel;
-    this.panel = new VWPanel(model.getShapesAt(0));
-    this.add(this.panel);
 
     this.tick = 0;
     timer = new Timer();
     this.speed = speed;
+
+    setSize((int) model.getWidth(), (int) model.getHeight());
+    setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
+
+    this.panel = new VWPanel(model.getShapesAt(0));
+    this.add(this.panel);
   }
 
   @Override
@@ -41,7 +52,8 @@ public class VisualView extends JFrame implements AnimatorView {
   @Override
   public void displayAnimation() {
     this.setVisible(true);
-    timer.scheduleAtFixedRate(new AnimationTask(this, tick), (long) 0, (long) (1 / speed * 1000));
+    timer.scheduleAtFixedRate(new AnimationTask(this, tick, model.getLastTick()), (long) 0,
+            (long) (1000 / speed));
   }
 
 }
