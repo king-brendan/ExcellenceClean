@@ -1,7 +1,6 @@
 package cs3500.animator.model;
 
 import java.awt.Color;
-import java.util.List;
 
 /**
  * An interface to include all the functionality required of a cs3500.animator.model for an animator. Since

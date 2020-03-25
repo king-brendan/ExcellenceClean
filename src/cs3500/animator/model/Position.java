@@ -3,7 +3,7 @@ package cs3500.animator.model;
 /**
  * A class to represent the position of a shape within our cs3500.animator.model space.
  */
-public final class Position {
+public final class Position{
   private double x;
   private double y;
 
@@ -114,4 +114,6 @@ public final class Position {
   private boolean isWithin(double d1, double d2) {
     return Math.abs(d1 - d2) < 0.001;
   }
+
+
 }

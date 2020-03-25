@@ -1,6 +1,6 @@
 package cs3500.animator.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -53,9 +53,9 @@ public final class Shape {
    */
   //TODO: change to a switch statement if possible
   public static ShapeType getType(String s) {
-    if (s.equals(ShapeType.RECTANGLE.toString())) {
+    if (s.equals(ShapeType.RECTANGLE.toString()) || s.equalsIgnoreCase("square")) {
       return ShapeType.RECTANGLE;
-    } else if (s.equals(ShapeType.OVAL.toString())) {
+    } else if (s.equals(ShapeType.OVAL.toString()) || s.equalsIgnoreCase("circle")) {
       return ShapeType.OVAL;
     } else {
       throw new IllegalArgumentException("Invalid shape type");

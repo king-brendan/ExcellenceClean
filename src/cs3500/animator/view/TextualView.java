@@ -1,27 +1,33 @@
 package cs3500.animator.view;
 
 
+import java.io.IOException;
+
 import cs3500.animator.model.ReadOnlyExcellenceOperations;
 
 /**
  * A view that
  */
 public class TextualView implements AnimatorView {
-  ReadOnlyExcellenceOperations readOnlyModel;
-  Appendable ap;
+  private ReadOnlyExcellenceOperations model;
+  private Appendable ap;
 
-  TextualView(ReadOnlyExcellenceOperations model, Appendable ap) {
-    readOnlyModel = model;
+  TextualView(ReadOnlyExcellenceOperations readOnlyModel, Appendable ap) {
+    model = readOnlyModel;
     this.ap = ap;
   }
-  @Override
-  public void refresh() {
 
+  @Override
+  public void refresh(int tick) {
   }
 
   @Override
   public void displayAnimation() {
-
+    try {
+      ap.append(model.toText());
+    } catch (IOException ioe) {
+      throw new IllegalStateException("Appendable cannot be appended to");
+    }
   }
 
 
