@@ -6,11 +6,10 @@ import java.awt.Color;
  * An interface to include all the functionality required of a cs3500.animator.model for an
  * animator. Since assignment 5, we have updated our interface. First, we deleted the
  * playAnimation(int tick) method as it mutates the shapes indefinitely. We added a new method
- * instead, getShapesAt(int tick) described below. Moreover, we deleted the getShapes() and
- * getInstructions() methods as they are no longer needed. We have added setters for the width,
- * height, and top-left point of the model as it is information needed for the views. In the
- * read-only interface, we accounted for getters for this information but did not include the
- * setters.
+ * instead, getShapesAt(int tick) described below. Moreover, we deleted the getShapes() method as it
+ * is no longer needed. We have added setters for the width, height, and top-left point of the model
+ * as it is information needed for the views. In the read-only interface, we accounted for getters
+ * for this information but did not include the setters.
  */
 public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
 

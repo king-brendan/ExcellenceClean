@@ -7,16 +7,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import cs3500.animator.model.Constants;
 import cs3500.animator.model.Dimension;
 import cs3500.animator.model.ExcellenceOperations;
 
 import cs3500.animator.model.Position;
 import cs3500.animator.model.Shape;
 import cs3500.animator.model.ShapeAnimationModel;
+import cs3500.animator.view.AnimatorView;
+import cs3500.animator.view.SVGView;
 
 
 /**
@@ -117,12 +115,12 @@ public class TestExcellence {
     System.out.print(hwExample.toText());
     System.out.print("\n\n\n\nFor the Second Example:\n\n");
 
-    hwExample.addShape("T", Shape.ShapeType.TRIANGLE);
+    hwExample.addShape("T", Shape.ShapeType.RECTANGLE);
     hwExample.addInstruction("T", 1, 10,
             p200x200, p10x200, d50x100, d50x100, Color.RED, Color.RED);
 
-    assertTrue(hwExample.toText().contains("shape T triangle\n" +
-            "motion T 1 200.0 200.0 50.0 100.0 255 0 0     10 10.0 200.0 50.0 100.0 255 0 0\n" ));
+    assertTrue(hwExample.toText().contains("shape T rectangle\n" +
+            "motion T 1 200.0 200.0 50.0 100.0 255 0 0     10 10.0 200.0 50.0 100.0 255 0 0" ));
 
     System.out.print(hwExample.toText());
 
@@ -270,26 +268,16 @@ public class TestExcellence {
   @Test(expected = IllegalArgumentException.class)
   public void testAddShapeNullName() {
     initExamples();
-    hwExample.addShape(null, Shape.ShapeType.TRIANGLE);
+    hwExample.addShape(null, Shape.ShapeType.RECTANGLE);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testCreateNegativePosition() {
-    Position p = new Position(-1, 10);
-  }
+  @Test
+  public void testSVGDescription() {
+    initExamples();
+    AnimatorView view = new SVGView(hwExample, System.out);
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testCreatePositionOutOfBounds() {
-    Position p = new Position(10, Constants.VIEW_HEIGHT + 1);
-  }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testCreateNegativeDimension() {
-    Dimension d = new Dimension(-1, 10);
-  }
+    view.displayAnimation();
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testCreateTooBigDimension() {
-    Dimension d = new Dimension(10, Constants.VIEW_HEIGHT + 1);
   }
 }

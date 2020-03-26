@@ -6,7 +6,10 @@ import java.awt.Color;
  * A Class to represent the instructions given by the user. It contains the state of the shape from
  * the start tick till the end tick. It does not hold the shape itself, but only its name so that
  * you cannot access the shape from the instruction itself. The instruction is immutable and is
- * read-only (only has getters without any setters).
+ * read-only (only has getters without any setters). We added a copy constructor for assignment 6 so
+ * that we can return a copy of the instructions from the model. From assignment 5, we refactored
+ * the getters to be public so we can access them in the SVG view. This does not change Instructions
+ * immutability.
  */
 public final class Instruction {
   private final String shapeName;
@@ -60,18 +63,35 @@ public final class Instruction {
     this.endColor = endColor;
   }
 
+  /**
+   * Default Copy Constructor for Instruction.
+   *
+   * @param instruction is the instruction to be copied.
+   */
+  Instruction(Instruction instruction) {
+    this.shapeName = instruction.getShapeName();
+    this.startTick = instruction.getStartTick();
+    this.endTick = instruction.getEndTick();
+    this.startPos = new Position(instruction.getStartPosition());
+    this.endPos = new Position(instruction.getEndPosition());
+    this.startDim = new Dimension(instruction.getStartDimension());
+    this.endDim = new Dimension(instruction.getEndDimension());
+    this.startColor = instruction.getStartColor();
+    this.endColor = instruction.getEndColor();
+  }
+
 
   /**
    * Returns the shape name in the instruction.
    */
-  String getShapeName() {
+  public String getShapeName() {
     return shapeName;
   }
 
   /**
    * Returns the startTick of the Instruction.
    */
-  int getStartTick() {
+  public int getStartTick() {
     return startTick;
   }
 
@@ -79,49 +99,49 @@ public final class Instruction {
   /**
    * Returns the endTick of the Instruction.
    */
-  int getEndTick() {
+  public int getEndTick() {
     return endTick;
   }
 
   /**
    * Returns a copy of the startPosition of the Instruction.
    */
-  Position getStartPosition() {
+  public Position getStartPosition() {
     return new Position(startPos);
   }
 
   /**
    * Returns a copy of the endPosition of the Instruction.
    */
-  Position getEndPosition() {
+  public Position getEndPosition() {
     return new Position(endPos);
   }
 
   /**
    * Returns a copy of the startDimension of the Instruction.
    */
-  Dimension getStartDimension() {
+  public Dimension getStartDimension() {
     return new Dimension(startDim);
   }
 
   /**
    * Returns a copy of the endDimension of the Instruction.
    */
-  Dimension getEndDimension() {
+  public Dimension getEndDimension() {
     return new Dimension(endDim);
   }
 
   /**
    * Returns the start color of the Instruction.
    */
-  Color getStartColor() {
+  public Color getStartColor() {
     return startColor;
   }
 
   /**
    * Returns the start color of the Instruction.
    */
-  Color getEndColor() {
+  public Color getEndColor() {
     return endColor;
   }
 

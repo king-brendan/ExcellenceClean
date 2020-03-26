@@ -144,6 +144,23 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     return text.substring(0, text.length() - 2);
   }
 
+  @Override
+  public Map<Shape, List<Instruction>> getInstructions() {
+    HashMap<Shape, List<Instruction>> newMap = new HashMap<>();
+
+    for (Map.Entry<Shape, List<Instruction>> e : instructions.entrySet()) {
+      Shape newShape = e.getKey().makeCopy();
+      List<Instruction> newInstructions = new ArrayList<>();
+
+      for (Instruction i : e.getValue()) {
+        Instruction newI = new Instruction(i);
+        newInstructions.add(newI);
+      }
+
+      newMap.put(newShape, newInstructions);
+    }
+    return newMap;
+  }
 
   @Override
   public void addInstruction(String shapeName, int startTick,

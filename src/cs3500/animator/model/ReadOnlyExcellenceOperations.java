@@ -1,14 +1,15 @@
 package cs3500.animator.model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * A new interface we added since assignment 5 that represents a read-only model. It will be used
- * as a restriction on an ExcellenceOperations where it cannot mutate the model in any way, but
- * only return information. As such, the toText and getShapesAt(int tick) were moved here from
- * the ExcellenceOperations interface. Moreover, a getLastTick, getWidth, getHeight, and
- * getTopLeft methods were added so that a view can know what size to draw its panel in, as well
- * as when to stop the animation.
+ * A new interface we added since assignment 5 that represents a read-only model. It will be used as
+ * a restriction on an ExcellenceOperations where it cannot mutate the model in any way, but only
+ * return information. As such, the toText, getShapesAt(int tick), and getInstructions were moved
+ * here from the ExcellenceOperations interface. Moreover, a getLastTick, getWidth, getHeight, and
+ * getTopLeft methods were added so that a view can know what size to draw its panel in, as well as
+ * when to stop the animation.
  */
 public interface ReadOnlyExcellenceOperations {
   /**
@@ -30,6 +31,12 @@ public interface ReadOnlyExcellenceOperations {
    * @throws IllegalArgumentException if the tick is negative.
    */
   public List<Shape> getShapesAt(int tick);
+
+  /**
+   * Returns a copy of the Instructions in the model as Map of Shape (key) to List of Instruction
+   * (Values) corresponding to that shape.
+   */
+  public Map<Shape, List<Instruction>> getInstructions();
 
   /**
    * Returns the last tick of the animation.
