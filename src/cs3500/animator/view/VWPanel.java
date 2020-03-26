@@ -29,7 +29,7 @@ public class VWPanel extends JPanel {
   }
 
   /**
-   * Sets the list of shapes to a new list of shapes inserted. It is set as defualt as it is only
+   * Sets the list of shapes to a new list of shapes inserted. It is set as default as it is only
    * accessed in this package and should not be public.
    *
    * @param shapes the new list of shapes

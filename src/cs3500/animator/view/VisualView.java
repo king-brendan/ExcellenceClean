@@ -31,6 +31,7 @@ public class VisualView extends JFrame implements AnimatorView {
    */
   public VisualView(ReadOnlyExcellenceOperations readOnlyModel, double speed) {
     model = readOnlyModel;
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     this.tick = 0;
     timer = new Timer();

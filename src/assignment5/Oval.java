@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class Oval extends Shape {
   public Oval(String name) {
-    super(name);
+    super(name, ShapeType.OVAL);
   }
 
   @Override

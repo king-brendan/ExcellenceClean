@@ -55,7 +55,8 @@ public final class Shape {
   public static ShapeType getType(String s) {
     if (s.equals(ShapeType.RECTANGLE.toString()) || s.equalsIgnoreCase("square")) {
       return ShapeType.RECTANGLE;
-    } else if (s.equals(ShapeType.OVAL.toString()) || s.equalsIgnoreCase("circle")) {
+    } else if (s.equals(ShapeType.OVAL.toString()) || s.equalsIgnoreCase("circle")
+     || s.equalsIgnoreCase("ellipse")) {
       return ShapeType.OVAL;
     } else {
       throw new IllegalArgumentException("Invalid shape type");

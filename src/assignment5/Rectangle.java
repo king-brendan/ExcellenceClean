@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class Rectangle extends Shape {
   public Rectangle(String name) {
-    super(name);
+    super(name, ShapeType.RECTANGLE);
   }
 
   @Override

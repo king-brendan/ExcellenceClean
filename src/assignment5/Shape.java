@@ -12,12 +12,12 @@ import java.util.Objects;
  * changed the applyInstructionToTick method so that it accounts  for the tweening formula in
  * assignment 6.
  */
-public final class Shape {
-  private final String name;
-  private Color color;
-  private final Dimension dimension;
-  private final Position position;
-  private final ShapeType type;
+public class Shape {
+  protected final String name;
+  protected Color color;
+  protected final Dimension dimension;
+  protected final Position position;
+  protected final ShapeType type;
 
   /**
    * A class to represent the shape type, this will be accessed in the view through the getType
