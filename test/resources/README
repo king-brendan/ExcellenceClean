@@ -1,0 +1,78 @@
+The following is a description of all classes, interfaces, and enums used in our cs3500.animator.model, as well
+as their functionality.
+
+The ExcellenceOperations interface extends the ReadOnlyExcellenceOperations interface, and
+represents all of the functionality required of an animator
+cs3500.animator.model class. Objects of type ExcellenceOperations have methods that allow the user to add
+shapes to the animation, add instructions for those shapes, render the animation as text,
+get a list of shapes with updated states at some tick - that is, get the appropriate shape states
+at that time, get the height/width of the model, and get a copy of the instructions of that model.
+
+For the ReadOnlyExcellenceOperations interface, it only contains the 'getter' methods of the
+ExcellenceOperations interface. It is used for instances such as views, where the model should not
+be mutated but can give out the desired information for a view to render. It never returns mutable
+objects, but always returns copies of the model information.
+
+The ShapeAnimationModel class implements the ExcellenceOperations
+interface, and all functionality specified above. The ShapeAnimationModel class keeps track of the
+various shapes and the instructions associated with them using two fields, "shapes" and
+"instructions". The shapes map maps all shapes to their names as Strings, and the instructions map
+maps all Shapes to their list of instructions to be performed. It can use the Builder class inside
+it to build and render the animation from files specified by the OOD course. It has a constructor
+that can create a model other than the builder method.
+
+The Instruction class represents an instruction to change the state of an object. If the controller
+wants to instruct the cs3500.animator.model to add a new shape, they use the addShape method in the interface, and
+if the user wants to instruct the cs3500.animator.model to change the state of an existing shape over a certain time
+period, they use the adInstruction method in the interface. Objects of type Instruction contain
+information on the name of the shape being changed, and the beginning and end states of that shape.
+Instructions can only be added for a shape if its beginning state is the same as the end state of
+the last instruction for that shape.
+
+The Shape class represents a shape that is changed in the animation. Since the attributes of a shape
+that can be changed in the animation are shared by every shape (dimension, position, color), every
+shape can be represented by one class, without the need for extension. The shape type (rectangle,
+oval, etc) is represented as a field in the shape class, of type ShapeType (an enum that can be
+easily added to to include more shapes). Since all shapes are added to the animation with no initial
+state defined, there is only one constructor, which takes in a name and a ShapeType.
+
+As for our views, we have an interface called AnimatorView, which holds methods for refreshing the
+view, as well as displaying it. All other views implement it, including the Visual View (VV),
+ SVG View (SVG), and Textual View (TV). Since the SVG and TV do not need to refresh, the refresh
+ method (if called on them) let's the user know that nothing will happen -it outputs a message to
+ the appendable.
+
+ A Visual View (VW) contains a model and a VWPanel, it takes in that model and an animation speed,
+ then renders the animation of the shapes in the model to the VWPanel. Since this animation is
+ timed, we used a Timer to control the speed of the animation and defined its own TimerTask that
+ advances the 'tick' of the animation and refreshes the view according to that tick. The VWPanel,
+ which is a JPanel that is used for the Visual View, takes in a List<Shape> to draw, and animates
+ those shapes according to their states. The TimerTask we created for the VW is called an
+ AnimationTask, and we overrode its run method to advance a tick and refresh a View, both taken in
+ using the constructor.
+
+ A TV is the simplest of all views, and it takes in a model and an appendable, then outputs the
+ textual description of that model according to the toText method found in the Read Only interface.
+ It appends the description to the appendable.
+
+For a SVG view, it is similar to the TV, except it takes in a model, appendable, and speed of
+animation. It gets the instructions of the model relative to their shapes, and creates an SVG text
+ output describing that animation, then appends it to the appendable.
+
+We added a ViewFactory class that creates a view using an appendable, view name or type, model, and
+speed of animation. That helps us parse the program arguments and create the right type of view
+according to user input.
+
+Our main method runs our program by taking in arguments in the form:
+-in "name-of-animation-file" -view "type-of-view" -out "where-output-show-go" -speed "integer-ticks-per-second"
+
+The main method will parse the input file using an AnimationReader, build our model using an
+AnimationBuilder, then output the view to whatever file the output specifies. In the case that it
+is a visual view, the output file does not matter. In the case where an output file or speed is not
+specified, they are set to an appendable of System.out and 1, respectively. The most important
+arguments are the -in ... and -view ... arguments.
+
+The Position and Dimension classes both represent the position and dimension of a shape,
+respectively. They both have two fields, that represent their x and y values. The TestExcellence class
+contains tests that check the functionality of the cs3500.animator.model and check that integrity constraints
+are met.
