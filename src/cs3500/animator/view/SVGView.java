@@ -1,6 +1,7 @@
 package cs3500.animator.view;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -16,18 +17,21 @@ import cs3500.animator.model.Shape;
  */
 public class SVGView implements AnimatorView {
 
-  private ReadOnlyExcellenceOperations model;
-  private Appendable ap;
+  private final ReadOnlyExcellenceOperations model;
+  private final Appendable ap;
+  private final double speed;
 
   /**
    * Public Constructor for SVG View that takes in the model and appendable it will output to.
    *
    * @param readOnlyModel the read only model.
    * @param ap            the appendable object it will output to
+   * @param speed         is the speed of the animation
    */
-  public SVGView(ReadOnlyExcellenceOperations readOnlyModel, Appendable ap) {
+  public SVGView(ReadOnlyExcellenceOperations readOnlyModel, Appendable ap, double speed) {
     model = readOnlyModel;
     this.ap = ap;
+    this.speed = speed;
   }
 
   @Override
@@ -46,12 +50,23 @@ public class SVGView implements AnimatorView {
   @Override
   public void displayAnimation() {
     try {
-      ap.append(getSVGText(model));
+      if (ap instanceof FileWriter) {
+        FileWriter fw = (FileWriter) ap;
+        fw.append(getSVGText(model));
+        fw.close();
+      } else {
+        ap.append(getSVGText(model));
+      }
     } catch (IOException ioe) {
       throw new IllegalStateException("Appendable cannot be appended to");
     }
   }
 
+  /**
+   * Returns a textual description of the model in SVG format.
+   *
+   * @param model the described model
+   */
   private String getSVGText(ReadOnlyExcellenceOperations model) {
     String text = "<?xml version=\"1.0\" standalone=\"no\"?>\n" +
             "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n" +
@@ -76,6 +91,11 @@ public class SVGView implements AnimatorView {
     return text;
   }
 
+  /**
+   * Returns a string that describes a shape in SVG format.
+   *
+   * @param shape the shape to be described
+   */
   private String makeShapeDescription(Shape shape) {
     String desc = "";
 
@@ -100,7 +120,7 @@ public class SVGView implements AnimatorView {
               "rgb(" + shape.getColor().getRed() + ","
                       + shape.getColor().getGreen() + "," + shape.getColor().getBlue() + ")"));
 
-      desc = desc.concat(">\n");
+      desc = desc.concat("/>\n");
     }
     if (shape.getType().equals(Shape.ShapeType.OVAL)) {
       desc = desc.concat("<ellipse");
@@ -130,6 +150,12 @@ public class SVGView implements AnimatorView {
     return desc;
   }
 
+  /**
+   * Returns the description of an attribute of some sort in the format attName="attDescription".
+   *
+   * @param attName        the name of the attribute
+   * @param attDescription the description of the attribute
+   */
   private String makeAttributeDescription(String attName, String attDescription) {
     String text = attName;
     text = text.concat("=\"" + attDescription + "\"");
@@ -137,6 +163,12 @@ public class SVGView implements AnimatorView {
     return text;
   }
 
+  /**
+   * Returns the description of an instruction in SVG format.
+   *
+   * @param type        the type of shape
+   * @param instruction the instruction to be described
+   */
   private String makeInstructDescription(Shape.ShapeType type, Instruction instruction) {
     String desc = "";
 
@@ -150,58 +182,72 @@ public class SVGView implements AnimatorView {
     if (type.equals(Shape.ShapeType.RECTANGLE)) {
       desc = desc.concat(makeSingleMotionDescription(instruction, "x",
               Double.toString(instruction.getStartPosition().getX()),
-              Double.toString(instruction.getEndPosition().getX())));
+              Double.toString(instruction.getEndPosition().getX()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "y",
               Double.toString(instruction.getStartPosition().getY()),
-              Double.toString(instruction.getEndPosition().getY())));
+              Double.toString(instruction.getEndPosition().getY()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "width",
               Double.toString(instruction.getStartDimension().getX()),
-              Double.toString(instruction.getEndDimension().getX())));
+              Double.toString(instruction.getEndDimension().getX()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "height",
               Double.toString(instruction.getStartDimension().getY()),
-              Double.toString(instruction.getEndDimension().getY())));
+              Double.toString(instruction.getEndDimension().getY()), speed));
 
 
-      desc = desc.concat(makeSingleMotionDescription(instruction, "fill", startColor, endColor));
+      desc = desc.concat(makeSingleMotionDescription(instruction, "fill", startColor, endColor,
+              speed));
 
     } else {
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "cx",
               Double.toString(instruction.getStartPosition().getX()),
-              Double.toString(instruction.getEndPosition().getX())));
+              Double.toString(instruction.getEndPosition().getX()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "cy",
               Double.toString(instruction.getStartPosition().getY()),
-              Double.toString(instruction.getEndPosition().getY())));
+              Double.toString(instruction.getEndPosition().getY()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "rx",
               Double.toString(instruction.getStartDimension().getX()),
-              Double.toString(instruction.getEndDimension().getX())));
+              Double.toString(instruction.getEndDimension().getX()), speed));
 
       desc = desc.concat(makeSingleMotionDescription(instruction, "ry",
               Double.toString(instruction.getStartDimension().getY()),
-              Double.toString(instruction.getEndDimension().getY())));
+              Double.toString(instruction.getEndDimension().getY()), speed));
 
 
-      desc = desc.concat(makeSingleMotionDescription(instruction, "fill", startColor, endColor));
+      desc = desc.concat(makeSingleMotionDescription(instruction, "fill", startColor, endColor,
+              speed));
     }
     return desc;
   }
 
+  /**
+   * Returns the description of a motion for a single shape attribute (such as xPosition or
+   * yPosition) in SVG format.
+   *
+   * @param instruction   is the instruction in question
+   * @param attributeName is the attribute name
+   * @param startState    is the start state for that attribute
+   * @param endState      is the end state for that attribute
+   * @param speed         is the speed of the animation
+   */
   private String makeSingleMotionDescription(Instruction instruction, String attributeName,
-                                             String startState, String endState) {
+                                             String startState, String endState, double speed) {
     String desc = "";
     desc = desc.concat("<animate ");
     desc = desc.concat(makeAttributeDescription("attributeName", attributeName) + " ");
-    desc = desc.concat(makeAttributeDescription("attributeType", "XML") + " ");
+    desc = desc.concat(makeAttributeDescription("attributeType", "XML")
+            + " ");
 
     desc = desc.concat(makeAttributeDescription("begin",
-            Integer.toString(instruction.getStartTick())) + " ");
+            (instruction.getStartTick() * 1.0 / speed) + "s") + " ");
     desc = desc.concat(makeAttributeDescription("dur",
-            (Integer.toString(instruction.getEndTick() - instruction.getStartTick()))) + " ");
+            ((instruction.getEndTick()
+                    - instruction.getStartTick()) * 1.0 / speed) + "s") + " ");
 
     desc = desc.concat(makeAttributeDescription("fill", "freeze") + " ");
 

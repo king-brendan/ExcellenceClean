@@ -1,7 +1,8 @@
 package cs3500.animator.view;
 
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
 
 import java.util.List;
 

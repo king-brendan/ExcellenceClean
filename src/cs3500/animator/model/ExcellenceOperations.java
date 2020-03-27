@@ -45,6 +45,8 @@ public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
    * Creates and adds a shape to the cs3500.animator.model. Expects only a name and a type to create
    * the shape object.
    *
+   * @param shapeName is the shape name or ID
+   * @param shapeType is the type of shape, either rectangle or oval
    * @throws IllegalArgumentException if any of the arguments are null
    */
   public void addShape(String shapeName, Shape.ShapeType shapeType);

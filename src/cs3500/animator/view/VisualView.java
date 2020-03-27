@@ -29,7 +29,7 @@ public class VisualView extends JFrame implements AnimatorView {
    * @param readOnlyModel the model
    * @param speed         the speed of the animation
    */
-  public VisualView(ReadOnlyExcellenceOperations readOnlyModel, double speed) {
+  VisualView(ReadOnlyExcellenceOperations readOnlyModel, double speed) {
     model = readOnlyModel;
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,7 +37,8 @@ public class VisualView extends JFrame implements AnimatorView {
     timer = new Timer();
     this.speed = speed;
 
-    setSize((int) model.getWidth(), (int) model.getHeight());
+    setSize((int) (model.getWidth() - model.getTopLeft().getX()),
+            (int) (model.getHeight() - model.getTopLeft().getY()));
     setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
 
     this.panel = new VWPanel(model.getShapesAt(0));

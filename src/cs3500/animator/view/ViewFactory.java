@@ -9,31 +9,31 @@ public class ViewFactory {
 
   /**
    * Creates a view based off of the given parameters.
+   *
    * @param viewType the type of view to be created
-   * @param output the output destination
-   * @param speed the speed of the animation
-   * @param m the model to be used in the view
+   * @param ap   the output destination as an appendable
+   * @param speed    the speed of the animation
+   * @param m        the model to be used in the view
    * @return an AnimatorView initialized with the given model and parameteres.
    */
-  public static AnimatorView makeView(String viewType, String output, String speed,
-                              ReadOnlyExcellenceOperations m) {
-    if (viewType == null) {
-      throw new IllegalArgumentException("View type cannot be null");
-    }
+  public static AnimatorView makeView(String viewType, Appendable ap, int speed,
+                                      ReadOnlyExcellenceOperations m) {
 
-    int s = Integer.parseInt(speed);
-    AnimatorView v = null;
-    switch(viewType) {
+    AnimatorView v;
+
+
+    switch (viewType) {
       case "visual":
-        v = new VisualView(m, s);
+        v = new VisualView(m, speed);
         break;
       case "text":
-        Appendable ap = null;
-        if (output.equals("System.out")) {
-          ap = System.out;
-        }
         v = new TextualView(m, ap);
-      //TODO: add the SVG view case here
+        break;
+      case "svg":
+        v = new SVGView(m, ap, (double) speed);
+        break;
+      default:
+        throw new IllegalArgumentException("Wrong view type");
     }
 
     return v;

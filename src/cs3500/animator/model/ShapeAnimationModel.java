@@ -59,7 +59,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
 
     @Override
     public AnimationBuilder<ExcellenceOperations> declareShape(String name, String type) {
-      Shape.ShapeType s = Shape.getType(type);
+      Shape.ShapeType s = Shape.getTypeFromString(type);
       e.addShape(name, s);
       return this;
     }
@@ -90,7 +90,8 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     }
 
     @Override
-    public AnimationBuilder<ExcellenceOperations> addKeyframe(String name, int t, int x, int y, int w, int h, int r, int g, int b) {
+    public AnimationBuilder<ExcellenceOperations> addKeyframe(String name, int t, int x, int y,
+                                                              int w, int h, int r, int g, int b) {
       return null;
     }
   }

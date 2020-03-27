@@ -1,6 +1,6 @@
 package cs3500.animator.model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 
 /**
@@ -20,12 +20,12 @@ public final class Shape {
   private final ShapeType type;
 
   /**
-   * A class to represent the shape type, this will be accessed in the view through the getType
-   * method to decide on how to draw it in the view. We are not sure how many shape types we are
-   * expected to handle. Therefore, we have modeled a rectangle, oval, and triangle as the basic
-   * three shapes. Out of which we can also make squares, circles, and ellipses. Other shapes such
-   * as hexagons, pentagons, heptagons...etc can be added later if we are expected to handle them as
-   * well.
+   * A class to represent the shape type, this will be accessed in the view through the
+   * getTypeFromString method to decide on how to draw it in the view. We are not sure how many
+   * shape types we are expected to handle. Therefore, we have modeled a rectangle, oval, and
+   * triangle as the basic three shapes. Out of which we can also make squares, circles, and
+   * ellipses. Other shapes such as hexagons, pentagons, heptagons...etc can be added later if we
+   * are expected to handle them as well.
    */
   public enum ShapeType {
     RECTANGLE, OVAL;
@@ -49,14 +49,13 @@ public final class Shape {
    * @param s the String describing the ShapeType.
    * @return the corresponding ShapeType.
    * @throws IllegalArgumentException if the shape type name is invalid or if the parameters are
-   * null.
+   *                                  null.
    */
-  //TODO: change to a switch statement if possible
-  public static ShapeType getType(String s) {
+  public static ShapeType getTypeFromString(String s) {
     if (s.equals(ShapeType.RECTANGLE.toString()) || s.equalsIgnoreCase("square")) {
       return ShapeType.RECTANGLE;
     } else if (s.equals(ShapeType.OVAL.toString()) || s.equalsIgnoreCase("circle")
-     || s.equalsIgnoreCase("ellipse")) {
+            || s.equalsIgnoreCase("ellipse")) {
       return ShapeType.OVAL;
     } else {
       throw new IllegalArgumentException("Invalid shape type");
@@ -79,7 +78,7 @@ public final class Shape {
     }
     this.name = name;
     this.type = type;
-    this.color = Constants.BACKGROUND_COLOR;
+    this.color = new Color(0, 0, 0);
     this.dimension = new Dimension(0, 0);
     this.position = new Position(0, 0);
   }
@@ -277,8 +276,9 @@ public final class Shape {
     return "shape " + name + " " + type.toString();
   }
 
-  //A shape is equal according to its name and type. Our cs3500.animator.model assures that no two shapes will
-  // have the same name, therefore this cannot give a false positive for shapes in the cs3500.animator.model.
+  //A shape is equal according to its name and type. Our cs3500.animator.model assures that no two
+  // shapes will have the same name, therefore this cannot give a false positive for shapes in
+  // the cs3500.animator.model.
   @Override
   public boolean equals(Object o) {
     if (this == o) {

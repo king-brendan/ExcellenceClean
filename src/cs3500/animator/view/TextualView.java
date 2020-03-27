@@ -1,6 +1,7 @@
 package cs3500.animator.view;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import cs3500.animator.model.ReadOnlyExcellenceOperations;
@@ -41,7 +42,13 @@ public class TextualView implements AnimatorView {
   @Override
   public void displayAnimation() {
     try {
-      ap.append(model.toText());
+      if (ap instanceof FileWriter) {
+        FileWriter fw = (FileWriter) ap;
+        fw.append(model.toText());
+        fw.close();
+      } else {
+        ap.append(model.toText());
+      }
     } catch (IOException ioe) {
       throw new IllegalStateException("Appendable cannot be appended to");
     }
