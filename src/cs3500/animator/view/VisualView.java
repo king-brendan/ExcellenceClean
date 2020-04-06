@@ -1,11 +1,13 @@
 package cs3500.animator.view;
 
 
+import java.awt.*;
 import java.util.Timer;
 
 
 import javax.swing.JFrame;
 
+import cs3500.animator.controller.ButtonHandler;
 import cs3500.animator.model.ReadOnlyExcellenceOperations;
 
 
@@ -58,4 +60,8 @@ public class VisualView extends JFrame implements AnimatorView {
             (long) (1000 / speed));
   }
 
+  //TODO: we shouldn't need this method to get a KeyListener working with the VWPanel
+  public void addBListener(ButtonHandler bh) {
+    this.panel.addKeyListener(bh);
+  }
 }

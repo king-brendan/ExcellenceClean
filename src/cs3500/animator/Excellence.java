@@ -52,8 +52,6 @@ public final class Excellence {
           case "-speed":
             speed = Integer.parseInt(args[i + 1]);
             break;
-          default:
-            throw new IllegalArgumentException("Wrong Arguments");
         }
       }
     } catch (Exception exc) {

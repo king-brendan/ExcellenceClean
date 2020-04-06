@@ -32,6 +32,10 @@ public class ViewFactory {
       case "svg":
         v = new SVGView(m, ap, (double) speed);
         break;
+      case "edit":
+        AnimatorView vis = new VisualView(m , speed);
+        v = new EditorView(m, vis);
+        break;
       default:
         throw new IllegalArgumentException("Wrong view type");
     }
