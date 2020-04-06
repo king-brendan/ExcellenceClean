@@ -4,7 +4,6 @@ package cs3500.animator.view;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.animator.model.Dimension;
@@ -47,9 +46,7 @@ public class VWPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    List<Shape> newShapes  = new ArrayList<Shape>(shapes);
-
-    for (Shape s : newShapes) {
+    for (Shape s : shapes) {
       String sType = s.getType().toString();
 
       Position p = s.getPosition();
