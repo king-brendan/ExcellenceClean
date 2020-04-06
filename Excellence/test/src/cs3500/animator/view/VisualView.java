@@ -6,7 +6,6 @@ import java.util.Timer;
 
 import javax.swing.JFrame;
 
-import cs3500.animator.controller.ButtonHandler;
 import cs3500.animator.model.ReadOnlyExcellenceOperations;
 
 
@@ -35,38 +34,6 @@ public class VisualView extends JFrame implements AnimatorView {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     this.tick = 0;
-    timer = new Timer();
-    this.speed = speed;
-
-    setSize((int) (model.getWidth() - model.getTopLeft().getX()),
-            (int) (model.getHeight() - model.getTopLeft().getY()));
-    setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
-
-    this.panel = new VWPanel(model.getShapesAt(0));
-    this.add(this.panel);
-  }
-
-  /**
-   * A public constructor for a Visual View that takes in the readonly model, the speed at which
-   * the animation should be played, and the starting tick of the animation.
-   * NOTE: this constructor was added to make it easier to create a new VisualView; that is, to
-   * restart the animation from a certain tick.
-   *
-   * @param readOnlyModel the model
-   * @param speed the speed of the animation
-   * @param startTick the start tick of the animation
-   */
-  VisualView(ReadOnlyExcellenceOperations readOnlyModel, double speed, int startTick) {
-    model = readOnlyModel;
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    if ((tick < 0) || (tick >= model.getLastTick())) {
-      throw new IllegalArgumentException("Illegal reset tick");
-    } else {
-      this.tick = startTick;
-    }
-
-    this.tick = tick;
     timer = new Timer();
     this.speed = speed;
 
