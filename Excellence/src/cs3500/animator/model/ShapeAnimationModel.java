@@ -302,6 +302,11 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
     } else {
       Keyframe oldKey = kFrames.get(0);
 
+      if(key.getTick() < oldKey.getTick()) {
+        kFrames.add(0, key);
+        return;
+      }
+
       for (int i = 1; i < originalSize; i++) {
         if (key.getTick() < kFrames.get(i).getTick() && key.getTick() > oldKey.getTick()) {
           kFrames.add(i, key);
