@@ -163,6 +163,13 @@ public class TestExcellence {
     assertTrue(hwExample.toText().contains("motion R 1 200.0 200.0 50.0 100.0 255 0 0  " +
             "   5 100.0 100.0 100.0 50.0 255 0 0\n" + "motion R 5 100.0 100.0 100.0 50.0 255 0 0  " +
             "   10 10.0 200.0 50.0 100.0 255 0 0"));
+
+    hwExample.addKeyframe("C", 2, new Position(50, 50),
+            new Dimension(50, 50), Color.RED);
+
+    assertTrue(hwExample.toText().contains("motion C 2 50.0 50.0 50.0 50.0 255 0 0  " +
+            "   6 440.0 70.0 120.0 60.0 0 0 255\n" + "motion C 6 440.0 70.0 120.0 60.0 0 0 255  " +
+            "   20 440.0 70.0 120.0 60.0 0 0 255"));
   }
 
   @Test
