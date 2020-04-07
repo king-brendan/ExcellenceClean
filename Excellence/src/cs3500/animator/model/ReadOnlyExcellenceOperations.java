@@ -33,8 +33,16 @@ public interface ReadOnlyExcellenceOperations {
   public List<Shape> getShapesAt(int tick);
 
   /**
-   * Returns a copy of the Instructions in the model as Map of Shape (key) to List of Instruction
-   * (Values) corresponding to that shape.
+   * Returns a copy of the Keyframes in the model as Map of Shape (key) to List of Keyframes
+   * (Values) corresponding to that shape. This method was added for assignment 7 since we are now
+   * dealing with keyframes, not just instructions.
+   */
+  public Map<Shape, List<Keyframe>> getKeyframes();
+
+  /**
+   * Returns a copy of the Instructions in the model as Map of Shape (key) to List of Instructions
+   * (Values) corresponding to that shape. This method was kept from previous assignments as it is
+   * used in the svg view and might be useful later.
    */
   public Map<Shape, List<Instruction>> getInstructions();
 

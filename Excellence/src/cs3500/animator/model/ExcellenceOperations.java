@@ -19,7 +19,8 @@ public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
    * and Colors. This is done so that the controller can parse for errors in user input after
    * getting the full instruction and output the specific problem with the output, then only ask for
    * that input again instead of the whole instruction. This will create a better, more detailed
-   * GUI.
+   * GUI. From assignment 6, this was changed so that it creates two keyframes, but was kept as an
+   * option to add a full motion for a shape.
    *
    * @param shapeName  is  the shape name
    * @param startTick  is when the instruction is applied to the cs3500.animator.model
@@ -40,6 +41,40 @@ public interface ExcellenceOperations extends ReadOnlyExcellenceOperations {
                              int endTick, Position startPos,
                              Position endPos, Dimension startDim,
                              Dimension endDim, Color startColor, Color endColor);
+
+  /**
+   * Adds a keyframe to a specific shape. Using a tick, position, color, and dimension, it adds a
+   * keyframe (or a shape state at a specific point) to the animation.
+   *
+   * @param shapeName is the shape Name
+   * @param tick      is the instance of time the keyframe is to be added to
+   * @param position  is the position of the shape at that tick
+   * @param dimension is the dimension of the shape at that tick
+   * @param color     is the color of the shape at that tick
+   * @throws IllegalArgumentException if the shape does not exist, any of the parameters are null,
+   *                                  or if there is a keyframe at that tick.
+   */
+  public void addKeyframe(String shapeName, int tick, Position position, Dimension dimension,
+                          Color color);
+
+  /**
+   * Deletes the shape that has the name provided.
+   *
+   * @param shapeName is the name of the shape to be deleted.
+   * @throws IllegalArgumentException if shapeName is null or if no shape with that name exists in
+   *                                  the model.
+   */
+  public void deleteShape(String shapeName);
+
+  /**
+   * Deletes a keyframe for a specified shape at a certain tick.
+   *
+   * @param shapeName to represent the shape
+   * @param atTick    to represent the tick of the keyframe to be deleted
+   * @throws IllegalArgumentException if the params are null, shape does not exist, or the keyframe
+   *                                  does not exist at that point
+   */
+  public void deleteKeyframe(String shapeName, int atTick);
 
   /**
    * Creates and adds a shape to the cs3500.animator.model. Expects only a name and a type to create
