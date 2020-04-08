@@ -2,7 +2,6 @@ package cs3500.animator.controller;
 
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import cs3500.animator.model.Dimension;
 import cs3500.animator.model.ExcellenceOperations;
@@ -60,17 +59,25 @@ public class ButtonPressController implements ExcellenceController {
 
   @Override
   public void handleInputString(String input) {
-    if (input.equalsIgnoreCase("")) {
-      view.handleException("Please enter a non-empty command.");
-      return;
-    }
+
 
     String[] inputArray = input.split(" ");
+    String[] restOfInput = new String[0];
 
-    String[] restOfInput = getRest(inputArray);
+    try {
+      restOfInput = getRest(inputArray);
+    } catch (IllegalArgumentException iae) {
+      view.handleException("Please enter a proper command");
+      return;
+    }
+    String first;
 
-    String first = inputArray[0];
-
+    try {
+      first = get(0, inputArray, "Please enter a non-empty command");
+    } catch (IllegalArgumentException ioe) {
+      view.handleException(ioe.getMessage());
+      return;
+    }
     switch (first) {
       case "delete":
         try {
@@ -94,6 +101,22 @@ public class ButtonPressController implements ExcellenceController {
   }
 
   /**
+   * Returns the string at the specified index.
+   *
+   * @param index is the index of the array
+   * @param arr   is the array
+   * @param msg   is the message for the exception thrown
+   * @throws IllegalArgumentException if there is no string at that index
+   */
+  private String get(int index, String[] arr, String msg) {
+    try {
+      return arr[index];
+    } catch (IndexOutOfBoundsException ioe) {
+      throw new IllegalArgumentException(msg);
+    }
+  }
+
+  /**
    * Returns a copy of the array given without the first string.
    *
    * @param array is the array of strings.
@@ -107,16 +130,14 @@ public class ButtonPressController implements ExcellenceController {
    * Handles deleting a shape or keyframe, according to the user input.
    *
    * @param input is the remaining message from the user input
+   * @throws IllegalArgumentException if the inputs are invalid to delete a shape or keyframe
    */
   private void handleDeleteCase(String[] input) {
 
-    String c = input[0];
+    String c = get(0, input, "You can only delete a shape or keyframe, please specify.");
 
-    String shapeName = input[1];
+    String shapeName = get(1, input, "There is no shape name, please specify one");
 
-    if (shapeName == null) {
-      throw new IllegalArgumentException("There is no shape name");
-    }
 
     switch (c) {
       case "shape":
@@ -148,27 +169,19 @@ public class ButtonPressController implements ExcellenceController {
    * Handles adding a shape or keyframe to the animation, according to user input.
    *
    * @param input is the remaining message from the user input
+   * @throws IllegalArgumentException if the inputs are invalid to add a shape or keyframe
    */
   private void handleAddCase(String[] input) {
 
 
-    String toBeAdded = input[0];
+    String toBeAdded = get(0, input, "You can add a shape or keyframe, please specify");
 
-    String shapeName = input[1];
+    String shapeName = get(1, input, "Please enter a shape name");
 
-    if (toBeAdded == null) {
-      throw new IllegalArgumentException("Please specify what you want to add");
-    }
-    if (shapeName == null) {
-      throw new IllegalArgumentException("Please enter a shape name");
-    }
 
     switch (toBeAdded) {
       case "shape":
-        String shapeType = input[2];
-        if (shapeType == null) {
-          throw new IllegalArgumentException("please specify a shape type");
-        }
+        String shapeType = get(2, input, "please specify a shape type");
 
         try {
           Shape.ShapeType type = Shape.getTypeFromString(shapeType);
@@ -180,28 +193,27 @@ public class ButtonPressController implements ExcellenceController {
 
       case "keyframe":
 
+        try {
+          int tick = getInt(input[2], "Please specify the tick.");
 
-          try {
-            int tick = getInt(input[2], "Please specify the tick.");
+          double xPos = getDbl(input[3], "Please specify the X position.");
+          double yPos = getDbl(input[4], "Please specify the Y position.");
+          Position p = new Position(xPos, yPos);
 
-            double xPos = getDbl(input[3], "Please specify the X position.");
-            double yPos = getDbl(input[4], "Please specify the Y position.");
-            Position p = new Position(xPos, yPos);
+          double width = getDbl(input[5], "Please specify the width.");
+          double height = getDbl(input[6], "Please specify the height.");
+          Dimension d = new Dimension(width, height);
 
-            double width = getDbl(input[5], "Please specify the width.");
-            double height = getDbl(input[6], "Please specify the height.");
-            Dimension d = new Dimension(width, height);
+          int r = getInt(input[7], "Please specify the Red component of the color.");
+          int g = getInt(input[8], "Please specify the Green component of the color.");
+          int b = getInt(input[9], "Please specify the Blue component of the color.");
+          Color c = new Color(r, g, b);
 
-            int r = getInt(input[7], "Please specify the Red component of the color.");
-            int g = getInt(input[8], "Please specify the Green component of the color.");
-            int b = getInt(input[9], "Please specify the Blue component of the color.");
-            Color c = new Color(r, g, b);
+          model.addKeyframe(shapeName, tick, p, d, c);
 
-            model.addKeyframe(shapeName, tick, p, d, c);
-
-          } catch (IllegalArgumentException iae) {
-            throw new IllegalArgumentException("Could not add a Keyframe: " + iae.getMessage());
-          }
+        } catch (IllegalArgumentException iae) {
+          throw new IllegalArgumentException("Could not add a Keyframe: " + iae.getMessage());
+        }
         break;
 
       default:
@@ -212,14 +224,14 @@ public class ButtonPressController implements ExcellenceController {
   }
 
   /**
-   * Returns an integer from the scanner.
+   * Returns an integer from the string.
    *
-   * @param s   is the scanner
-   * @param msg is the message to be given to the user
-   * @throws IllegalArgumentException if the scanner does not have an int to get
+   * @param s   is the string
+   * @param msg is the message to be given to the user in case of an exception
+   * @throws IllegalArgumentException if the string does not have an int or is null
    */
   private int getInt(String s, String msg) {
-    if(s == null) {
+    if (s == null) {
       throw new IllegalArgumentException("Number is null");
     }
     try {
@@ -230,14 +242,14 @@ public class ButtonPressController implements ExcellenceController {
   }
 
   /**
-   * Returns a double from the scanner.
+   * Returns a double from the string.
    *
-   * @param s   is the scanner
-   * @param msg is the message to be given to the user
-   * @throws IllegalArgumentException if the scanner does not have a double to get
+   * @param s   is the string to be parsed
+   * @param msg is the message to be given to the user in case of an exception
+   * @throws IllegalArgumentException if the string does not have a double or is null
    */
   private double getDbl(String s, String msg) {
-    if(s == null) {
+    if (s == null) {
       throw new IllegalArgumentException("Number is null");
     }
     try {
