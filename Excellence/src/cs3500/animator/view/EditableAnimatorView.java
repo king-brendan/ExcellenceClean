@@ -39,4 +39,9 @@ public interface EditableAnimatorView extends AnimatorView {
    * @param s the amount the animation speed should be changed by.
    */
   void changeSpeed(int s);
+
+  /**
+   * Enables a pop-up text window to be typed in when the user presses 'e'.
+   */
+  void enablePopup(ExcellenceController c);
 }

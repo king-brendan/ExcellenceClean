@@ -133,4 +133,10 @@ public class EditorView extends JFrame implements EditableAnimatorView {
     actions.pauseResume(false);
     actions.changeSpeed(speed);
   }
+
+  @Override
+  public void enablePopup(ExcellenceController c) {
+    String input = JOptionPane.showInputDialog("Command syntax");
+    c.handleInputString(input);
+  }
 }
