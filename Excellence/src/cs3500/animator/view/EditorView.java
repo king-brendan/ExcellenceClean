@@ -1,5 +1,6 @@
 package cs3500.animator.view;
 
+import java.awt.*;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class EditorView extends JFrame implements EditableAnimatorView {
   private boolean isPaused;
   private AnimationTask task;
   private boolean isLooping;
+  private ActionsPanel actions;
 
   /**
    * A constructor for an EditorView, which takes in a model and speed, and creates a new
@@ -35,22 +37,34 @@ public class EditorView extends JFrame implements EditableAnimatorView {
    */
   EditorView(ReadOnlyExcellenceOperations readOnlyModel, int speed) {
     model = readOnlyModel;
-    this.shapesPanel = new VWPanel(readOnlyModel.getShapesAt(0));
+
     this.speed = speed;
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     timer = new Timer();
     task = new AnimationTask(this, 0, model.getLastTick());
-    setSize((int) (model.getWidth() - model.getTopLeft().getX()),
-            (int) (model.getHeight() - model.getTopLeft().getY()));
-    setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
-    this.add(shapesPanel);
+
+    this.shapesPanel = new VWPanel(readOnlyModel.getShapesAt(0));
+    this.setSize((int) (model.getWidth() - model.getTopLeft().getX()),
+            (int) (model.getHeight() - model.getTopLeft().getY() + 100));
+    this.setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
+
+    System.out.println("view size: " + this.getSize());
+    System.out.println("model size: width: " + model.getWidth() + " height: " + model.getHeight());
+    System.out.println("model top left: " + model.getTopLeft().getX() + ", " + model.getTopLeft().getY());
+
+    actions = new ActionsPanel(speed);
+    actions.setPreferredSize(new Dimension((int) (model.getWidth() - model.getTopLeft().getX()), 100));
+
+    this.add(shapesPanel, BorderLayout.CENTER);
+    this.add(actions, BorderLayout.PAGE_END);
+
     isPaused = false;
     isLooping = false;
   }
 
   @Override
   public void refresh(int tick) {
-    if (tick == (model.getLastTick() - 1)) {
+    if (tick == (model.getLastTick() - 1) && (isLooping)) {
       changeTick(0);
     }
     this.shapesPanel.setShapes(model.getShapesAt(tick));
@@ -79,6 +93,7 @@ public class EditorView extends JFrame implements EditableAnimatorView {
     task = new AnimationTask(this, tick, model.getLastTick());
     timer.scheduleAtFixedRate(task, (long) 0, (long) (1000 / speed));
     isPaused = false;
+    actions.pauseResume(false);
   }
 
   @Override
@@ -89,15 +104,18 @@ public class EditorView extends JFrame implements EditableAnimatorView {
       timer = new Timer();
       task = new AnimationTask(this, curTick, model.getLastTick());
       isPaused = true;
+      actions.pauseResume(true);
     } else {
       timer.scheduleAtFixedRate(task, (long) 0, (long) (1000 / speed));
       isPaused = false;
+      actions.pauseResume(false);
     }
   }
 
   @Override
   public void toggleLooping() {
     isLooping = !isLooping;
+    actions.toggleLooping();
   }
 
   @Override
@@ -111,5 +129,8 @@ public class EditorView extends JFrame implements EditableAnimatorView {
       return;
     }
     timer.scheduleAtFixedRate(task, 0, (long) (1000 / speed));
+    isPaused = false;
+    actions.pauseResume(false);
+    actions.changeSpeed(speed);
   }
 }
