@@ -59,13 +59,15 @@ public class ButtonPressController implements ExcellenceController {
 
   @Override
   public void handleInputString(String input) {
-    if (input == "") {
+    if (input.equalsIgnoreCase("")) {
       view.handleException("Please enter a non-empty command.");
       return;
     }
 
+    String[] words = input.split("\\s+");
+
     Scanner s = new Scanner(input);
-    System.out.println(s.toString());
+
 
     while (s.hasNext()) {
       String first = s.next();
@@ -205,6 +207,8 @@ public class ButtonPressController implements ExcellenceController {
             }
           }
 
+        default:
+          view.handleException("You can only add a shape or keyframe");
       }
 
     }
