@@ -1,6 +1,7 @@
 package cs3500.animator.controller;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import cs3500.animator.model.Dimension;
@@ -64,183 +65,185 @@ public class ButtonPressController implements ExcellenceController {
       return;
     }
 
-    String[] words = input.split("\\s+");
+    String[] inputArray = input.split(" ");
 
-    Scanner s = new Scanner(input);
+    String[] restOfInput = getRest(inputArray);
 
+    String first = inputArray[0];
 
-    while (s.hasNext()) {
-      String first = s.next();
-
-      switch (first) {
-        case "delete":
-          handleDeleteCase(s);
-          break;
-        case "add":
-          handleAddCase(s);
-          break;
-        default:
-          view.handleException("Please enter a valid command.");
-          break;
-      }
+    switch (first) {
+      case "delete":
+        try {
+          handleDeleteCase(restOfInput);
+        } catch (IllegalArgumentException iae) {
+          view.handleException("Could not delete: " + iae.getMessage());
+        }
+        break;
+      case "add":
+        try {
+          handleAddCase(restOfInput);
+        } catch (IllegalArgumentException iae) {
+          view.handleException("Could not add: " + iae.getMessage());
+        }
+        break;
+      default:
+        view.handleException("Please enter a valid command.");
+        break;
     }
+
+  }
+
+  /**
+   * Returns a copy of the array given without the first string.
+   *
+   * @param array is the array of strings.
+   */
+  private String[] getRest(String[] array) {
+    return Arrays.copyOfRange(array, 1, array.length);
   }
 
 
   /**
    * Handles deleting a shape or keyframe, according to the user input.
    *
-   * @param s is the scanner containing the remaning message
+   * @param input is the remaining message from the user input
    */
-  private void handleDeleteCase(Scanner s) {
-    while (s.hasNext()) {
-      String c = s.next();
+  private void handleDeleteCase(String[] input) {
 
-      switch (c) {
-        case "shape":
+    String c = input[0];
 
-          if (s.hasNext()) {
-            String shapeName = s.next();
+    String shapeName = input[1];
 
-            try {
-              model.deleteShape(shapeName);
-            } catch (IllegalArgumentException e) {
-              view.handleException("Cannot delete the shape: " + e.getMessage() + ".");
-              return;
-            }
-          } else {
-            view.handleException("Too little inputs, please specify the shape you want to delete.");
-            return;
-          }
-
-        case "keyframe":
-
-          while (s.hasNext()) {
-            String shapeName = s.next();
-
-            if (s.hasNextInt()) {
-              int tick = s.nextInt();
-              try {
-                model.deleteKeyframe(shapeName, tick);
-              } catch (IllegalArgumentException iae) {
-                view.handleException("Cannot delete keyframe: " + iae.getMessage() + ".");
-                return;
-              }
-            } else {
-              view.handleException("Too little input, please specify which keyframe you want to " +
-                      "delete.");
-              return;
-            }
-          }
-
-        default:
-          view.handleException("You can only delete a shape or keyframe, please specify.");
-          return;
-
-      }
+    if (shapeName == null) {
+      throw new IllegalArgumentException("There is no shape name");
     }
+
+    switch (c) {
+      case "shape":
+        try {
+          model.deleteShape(shapeName);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Shape does not exist in the model");
+        }
+        return;
+
+
+      case "keyframe":
+
+        int tick = getInt(input[2], "Please specify a tick.");
+
+        try {
+          model.deleteKeyframe(shapeName, tick);
+        } catch (IllegalArgumentException iae) {
+          throw new IllegalArgumentException("Cannot delete keyframe: " + iae.getMessage());
+        }
+
+      default:
+        throw new IllegalArgumentException("You can only delete a shape or keyframe, please specify.");
+    }
+
   }
 
   /**
    * Handles adding a shape or keyframe to the animation, according to user input.
    *
-   * @param s is the scanner containing the user input
+   * @param input is the remaining message from the user input
    */
-  private void handleAddCase(Scanner s) {
-    while (s.hasNext()) {
-      String toBeAdded = s.next();
+  private void handleAddCase(String[] input) {
 
-      switch (toBeAdded) {
-        case "shape":
 
-          while (s.hasNext()) {
-            String shapeName = s.next();
+    String toBeAdded = input[0];
 
-            if (s.hasNext()) {
-              String shapeType = s.next();
+    String shapeName = input[1];
 
-              try {
-                Shape.ShapeType type = Shape.getTypeFromString(shapeType);
-                model.addShape(shapeName, type);
-              } catch (IllegalArgumentException iae) {
-                view.handleException("Could not add shape: " + iae.getMessage() + ".");
-                return;
-              }
-
-            } else {
-              view.handleException("Please specify a shape name and type to create a shape.");
-              return;
-            }
-          }
-
-        case "keyframe":
-
-          String errorMsg = "You can add a Keyframe by using the command line:\n add keyframe " +
-                  "'shapeName' " +
-                  "'tick' 'xPosition' " +
-                  "'YPosition' 'width' 'height' 'R value of Color' 'G value of color' 'B value of" +
-                  " color'";
-
-          while (s.hasNext()) {
-            String shapeName = s.next();
-            try {
-              int tick = getInt(s, "the tick.");
-
-              double xPos = getDbl(s, "the X position.");
-              double yPos = getDbl(s, "the Y position.");
-              Position p = new Position(xPos, yPos);
-
-              double width = getDbl(s, "the width.");
-              double height = getDbl(s, "the height.");
-              Dimension d = new Dimension(width, height);
-
-              int r = getInt(s, "the Red component of the color.");
-              int g = getInt(s, "the Green component of the color.");
-              int b = getInt(s, "the Blue component of the color.");
-              Color c = new Color(r, g, b);
-
-              model.addKeyframe(shapeName, tick, p, d, c);
-
-            } catch (IllegalArgumentException iae) {
-              view.handleException("Could not add a Keyframe: " + iae.getMessage());
-              return;
-            }
-          }
-
-        default:
-          view.handleException("You can only add a shape or keyframe");
-      }
-
+    if (toBeAdded == null) {
+      throw new IllegalArgumentException("Please specify what you want to add");
     }
+    if (shapeName == null) {
+      throw new IllegalArgumentException("Please enter a shape name");
+    }
+
+    switch (toBeAdded) {
+      case "shape":
+        String shapeType = input[2];
+        if (shapeType == null) {
+          throw new IllegalArgumentException("please specify a shape type");
+        }
+
+        try {
+          Shape.ShapeType type = Shape.getTypeFromString(shapeType);
+          model.addShape(shapeName, type);
+        } catch (IllegalArgumentException iae) {
+          throw new IllegalArgumentException("Could not add shape: " + iae.getMessage() + ".");
+        }
+        break;
+
+      case "keyframe":
+
+
+          try {
+            int tick = getInt(input[2], "Please specify the tick.");
+
+            double xPos = getDbl(input[3], "Please specify the X position.");
+            double yPos = getDbl(input[4], "Please specify the Y position.");
+            Position p = new Position(xPos, yPos);
+
+            double width = getDbl(input[5], "Please specify the width.");
+            double height = getDbl(input[6], "Please specify the height.");
+            Dimension d = new Dimension(width, height);
+
+            int r = getInt(input[7], "Please specify the Red component of the color.");
+            int g = getInt(input[8], "Please specify the Green component of the color.");
+            int b = getInt(input[9], "Please specify the Blue component of the color.");
+            Color c = new Color(r, g, b);
+
+            model.addKeyframe(shapeName, tick, p, d, c);
+
+          } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Could not add a Keyframe: " + iae.getMessage());
+          }
+        break;
+
+      default:
+        throw new IllegalArgumentException("You can only add a shape or keyframe");
+    }
+
+
   }
 
   /**
    * Returns an integer from the scanner.
    *
-   * @param s        is the scanner
-   * @param variable is the variable name to be appended to the exception message
+   * @param s   is the scanner
+   * @param msg is the message to be given to the user
    * @throws IllegalArgumentException if the scanner does not have an int to get
    */
-  private int getInt(Scanner s, String variable) {
-    if (s.hasNextInt()) {
-      return s.nextInt();
-    } else {
-      throw new IllegalArgumentException("Please specify a number for " + variable);
+  private int getInt(String s, String msg) {
+    if(s == null) {
+      throw new IllegalArgumentException("Number is null");
+    }
+    try {
+      return Integer.parseInt(s);
+    } catch (NumberFormatException nfe) {
+      throw new IllegalArgumentException(msg);
     }
   }
 
   /**
    * Returns a double from the scanner.
    *
-   * @param s        is the scanner
-   * @param variable is the variable name to be appended to the exception message
+   * @param s   is the scanner
+   * @param msg is the message to be given to the user
    * @throws IllegalArgumentException if the scanner does not have a double to get
    */
-  private double getDbl(Scanner s, String variable) {
-    if (s.hasNextDouble()) {
-      return s.nextDouble();
-    } else {
-      throw new IllegalArgumentException("Please specify a number for " + variable);
+  private double getDbl(String s, String msg) {
+    if(s == null) {
+      throw new IllegalArgumentException("Number is null");
+    }
+    try {
+      return Double.parseDouble(s);
+    } catch (NumberFormatException nfe) {
+      throw new IllegalArgumentException(msg);
     }
   }
 }
