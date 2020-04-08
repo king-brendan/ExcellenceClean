@@ -44,6 +44,16 @@ public class ButtonPressController implements ExcellenceController {
         case 'x':
           view.changeSpeed(DELTA_SPEED);
           break;
+        case 'e':
+          view.enablePopup(this);
+          break;
       }
+  }
+
+  @Override
+  public void handleInputString(String input) {
+    //fill this out - parse input and call methods in the model
+    //if excpetions are thrown, then call
+    //view.handleException(error);
   }
 }

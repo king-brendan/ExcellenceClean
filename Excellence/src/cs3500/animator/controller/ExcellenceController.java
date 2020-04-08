@@ -12,4 +12,10 @@ public interface ExcellenceController {
    * @param input the input from the user.
    */
   void handleButtonPress(char input);
+
+  /**
+   * Handles input from the command line
+   * @param input
+   */
+  void handleInputString(String input);
 }
