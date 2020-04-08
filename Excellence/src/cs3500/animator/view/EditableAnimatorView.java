@@ -38,10 +38,22 @@ public interface EditableAnimatorView extends AnimatorView {
    *
    * @param s the amount the animation speed should be changed by.
    */
-  void changeSpeed(int s);
+  public void changeSpeed(int s);
 
   /**
    * Enables a pop-up text window to be typed in when the user presses 'e'.
    */
-  void enablePopup(ExcellenceController c);
+  public void enablePopup(ExcellenceController c);
+
+  /**
+   * Displays error messages thrown by the model as a message to the user.
+   *
+   * @param error the error message.
+   */
+  public void handleException(String error);
+
+  /**
+   * Displays a pop-up of all of the shapes in the animation at the current tick.
+   */
+  void displayShapes();
 }

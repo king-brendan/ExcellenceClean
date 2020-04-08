@@ -45,15 +45,12 @@ public class EditorView extends JFrame implements EditableAnimatorView {
 
     this.shapesPanel = new VWPanel(readOnlyModel.getShapesAt(0));
     this.setSize((int) (model.getWidth() - model.getTopLeft().getX()),
-            (int) (model.getHeight() - model.getTopLeft().getY() + 100));
+            (int) (model.getHeight() - model.getTopLeft().getY() + 200));
     this.setLocation((int) model.getTopLeft().getX(), (int) model.getTopLeft().getY());
 
-    System.out.println("view size: " + this.getSize());
-    System.out.println("model size: width: " + model.getWidth() + " height: " + model.getHeight());
-    System.out.println("model top left: " + model.getTopLeft().getX() + ", " + model.getTopLeft().getY());
-
     actions = new ActionsPanel(speed);
-    actions.setPreferredSize(new Dimension((int) (model.getWidth() - model.getTopLeft().getX()), 100));
+    actions.setPreferredSize(new Dimension((int) (model.getWidth() - model.getTopLeft().getX()),
+            130));
 
     this.add(shapesPanel, BorderLayout.CENTER);
     this.add(actions, BorderLayout.PAGE_END);
@@ -136,7 +133,40 @@ public class EditorView extends JFrame implements EditableAnimatorView {
 
   @Override
   public void enablePopup(ExcellenceController c) {
-    String input = JOptionPane.showInputDialog("Command syntax");
+    String input = JOptionPane.showInputDialog("You can:\n" +
+            "1)Add a shape: \n" +
+            "Command line: “add shape shapeName shapeType”\n" +
+            "Type can be rectangle or oval\n" +
+            "\n" +
+            "2)Delete a shape: delete shape shapeName\n" +
+            "Command line: “delete shape shapeName”\n" +
+            "\n" +
+            "3)Add a keyframe:\n" +
+            "Command line: “add keyframe shapeName  tick  xPosition  yPosition  width  height  redComp greenComp blueComp”\n" +
+            "Where the …Comp fields are the components of the color, in integers between 0-255\n" +
+            "\n" +
+            "4)Delete a keyframe:\n" +
+            "Command line: “delete keyframe shapeName tick”");
     c.handleInputString(input);
+  }
+
+  @Override
+  public void handleException(String error) {
+    JOptionPane.showMessageDialog(this, error);
+  }
+
+  @Override
+  public void displayShapes() {
+    String text = "";
+    for (cs3500.animator.model.Shape s : model.getShapesAt(task.getTick())) {
+      text = text + s.getName() + ", " + s.getColor().toString() + ", " +
+              s.getType().toString() + "\n";
+    }
+    JTextArea textArea = new JTextArea(45, 34);
+    textArea.setText(text);
+    textArea.setEditable(false);
+    JScrollPane scrollPane = new JScrollPane(textArea);
+    JOptionPane.showMessageDialog(this,
+            scrollPane);
   }
 }

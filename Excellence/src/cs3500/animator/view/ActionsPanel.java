@@ -29,6 +29,7 @@ public class ActionsPanel extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
+    this.setBackground(Color.LIGHT_GRAY);
 
     if (isPaused) {
       g2d.drawString("Paused", LEFT_COL_X, 20);
@@ -48,7 +49,12 @@ public class ActionsPanel extends JPanel {
     g2d.drawString("Press L to toggle looping.", RIGHT_COL_X, 35);
     g2d.drawString("Press Z to decrease speed, X to increase speed.", RIGHT_COL_X, 50);
     g2d.drawString("Press R to reset.", RIGHT_COL_X, 65);
-    g2d.drawString("Exit the window to end the animation.", LEFT_COL_X, 80);
+    g2d.drawString("Press S to get information on all on-screen shapes. " +
+                    "Press E to input keyframe commands.",
+            LEFT_COL_X, 90);
+    g2d.drawString("Exit the window to end the animation.",
+            LEFT_COL_X, 110);
+
 
 
   }
