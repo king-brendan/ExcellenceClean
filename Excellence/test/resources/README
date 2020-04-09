@@ -1,3 +1,5 @@
+* ASSIGNMENT 6 *
+
 The following is a description of all classes, interfaces, and enums used in our cs3500.animator.model, as well
 as their functionality.
 
@@ -76,3 +78,47 @@ The Position and Dimension classes both represent the position and dimension of 
 respectively. They both have two fields, that represent their x and y values. The TestExcellence class
 contains tests that check the functionality of the cs3500.animator.model and check that integrity constraints
 are met.
+
+--------------------------------------------------------------------------------------------------
+* ASSIGNMENT 7 *
+
+In assignment 7, we added a new "Editor" view, added a new JPanel class to represent the animation
+information, added a new Controller interface, and a ButtonHandler class. We also added a new
+interface, EditableAnimatorView, to specify the types of behaviors required of an Editor view. We
+also updated our model to function by storing keyframes, not instructions.
+
+The EditableAnimatorView interface extends the AnimatorView interface, but adds functionality to
+change the state of a view during runtime, such as methods to change the tick, pause or resume,
+toggle looping, change the speed, and display pop ups to the user.
+
+The Editor view functions similarly to the visual view, in that it extends JFrame, but implements
+the new EditableAnimatorView interface. The Editor view creates a JPanel of type VWPanel, reused
+from the visual view, to render the shapes, and adds a JPanel of type ActionsPanel to display
+information to the user. The Editor view functions entirely through button presses; in order to
+add key event listeners to the JFrame, the EditorView adds a class of type ButtonHandler as a
+listener to the entire class, and takes in an ExcellenceController as an argument. The ButtonHandler
+listens for key events through its keyPressed method, and passes off user input as chars to the
+handleButtonPress method in the controller. The controller then decides what to do with the button
+presses and makes the appropriate changes to the model or to the view.
+
+In order to add functionality for more complex user input, the user can press 'e' to open up a more
+sophisticated command line, where they can enter commands to add/remove shapes and keyframes. In order
+to register longer user commands, user input is taken in from a JOptionPane in the EditorView
+enablePopup method, and then passed to the handleInputString method in the controller. The controller
+then makes changes to the model accordingly, which is reflected in the view on the next tick refresh.
+
+As shown above, the new ExcellenceController interface defines a controller that mediates between
+the model and the view. Whenever user input is registered from a keyEvent in the view, that information
+is sent as a char or as a string to the controller, which then decides what to do with it. The controller
+has two main interface methods, handleButtonPress and handleInputString.
+
+Lastly, the new Keyframe class replaces Instructions in our model functionality. Keyframes only keep
+track of the tick, the shape name, the color, the dimension, and the position of the shape at that
+keyframe. In order to implement keyframes in the model, the addKeyFrame method in the Builder class
+had to be defined as adding a keyframe to an existing shape. Several new methods in the
+ExcellenceOperations interface had to be added as well, such as addKeyFrame and removeKeyFrame.
+
+Nothing was changed in the VisualView class or in the VWPanel class - the VWPanel functionality was
+reused in the new EditorView class.
+
+

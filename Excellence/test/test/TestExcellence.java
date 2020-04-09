@@ -2,6 +2,8 @@ import org.junit.Test;
 
 import java.awt.Color;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -9,12 +11,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import cs3500.animator.controller.ButtonPressController;
+import cs3500.animator.controller.ExcellenceController;
 import cs3500.animator.model.Dimension;
 import cs3500.animator.model.ExcellenceOperations;
 
 import cs3500.animator.model.Position;
 import cs3500.animator.model.Shape;
 import cs3500.animator.model.ShapeAnimationModel;
+import cs3500.animator.view.AnimatorView;
+import cs3500.animator.view.EditableAnimatorView;
+import cs3500.animator.view.EditorView;
 
 
 /**
@@ -281,5 +288,23 @@ public class TestExcellence {
     hwExample.addShape(null, Shape.ShapeType.RECTANGLE);
   }
 
+  @Test
+  public void testController1() {
+    initExamples();
+    AnimatorView v = new EditorView(hwExample, 20);
+    ExcellenceController c = new ButtonPressController(hwExample, (EditableAnimatorView) v);
+    c.handleInputString("delete shape R");
+    assertEquals(hwExample.getShapesAt(1), new ArrayList<Shape>());
+  }
+
+  @Test
+  public void testController2() {
+    initExamples();
+    AnimatorView v = new EditorView(hwExample, 20);
+    ExcellenceController c = new ButtonPressController(hwExample, (EditableAnimatorView) v);
+    c.handleInputString("add shape L rectangle");
+    assertEquals(new ArrayList<Shape>(Collections.singleton(new Shape("R",
+            Shape.ShapeType.RECTANGLE))), hwExample.getShapesAt(1));
+  }
 
 }
