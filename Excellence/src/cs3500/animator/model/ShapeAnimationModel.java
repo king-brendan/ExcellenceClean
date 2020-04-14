@@ -139,7 +139,7 @@ public final class ShapeAnimationModel implements ExcellenceOperations {
   @Override
   public List<Shape> getShapesAt(int tick) {
     if (shapes.size() == 0) {
-      throw new IllegalStateException("There are no shapes to animate in the game");
+      throw new IllegalStateException("There are no shapes to animate in the animation");
     }
     if (tick < 0) {
       throw new IllegalArgumentException("Tick cannot be negative");

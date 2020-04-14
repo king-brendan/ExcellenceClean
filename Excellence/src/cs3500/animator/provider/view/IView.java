@@ -2,8 +2,6 @@ package cs3500.animator.provider.view;
 
 import java.awt.event.ActionListener;
 
-import model.Animator;
-
 /**
  * Represents a general interface for a view.
  * Used to visualize the model.

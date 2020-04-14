@@ -106,7 +106,7 @@ public final class Shape {
    * @param tick        is the tick to which the instruction will be applied to
    * @throws IllegalArgumentException if the instruction is null.
    */
-  void applyInstructionToTick(Instruction instruction, int tick) {
+  public void applyInstructionToTick(Instruction instruction, int tick) {
     if (instruction == null) {
       throw new IllegalArgumentException("Instruction cannot be null");
     }

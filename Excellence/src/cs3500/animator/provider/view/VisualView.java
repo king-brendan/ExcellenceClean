@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import model.Animator;
 
 /**
  * Visual View class for drawing an animation in a window.

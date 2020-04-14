@@ -6,9 +6,6 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import model.Animator;
-import model.ShapeType;
-
 /**
  * A view with a control panel for the contained animation, with playback features and services for
  * modifying animations.

@@ -35,6 +35,9 @@ public class ViewFactory {
       case "edit":
         v = new EditorView(m, speed);
         break;
+      case "provider":
+        v = new EditorViewAdapter(m, speed);
+        break;
       default:
         throw new IllegalArgumentException("Wrong view type");
     }

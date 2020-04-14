@@ -35,7 +35,7 @@ public class EditorView extends JFrame implements EditableAnimatorView {
    * @param readOnlyModel the model.
    * @param speed the initial speed of the animation.
    */
-  EditorView(ReadOnlyExcellenceOperations readOnlyModel, int speed) {
+  public EditorView(ReadOnlyExcellenceOperations readOnlyModel, int speed) {
     model = readOnlyModel;
 
     this.speed = speed;

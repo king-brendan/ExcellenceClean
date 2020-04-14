@@ -6,9 +6,6 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import model.Animator;
-import model.KeyFrame;
-import model.ShapeType;
 
 
 /**
