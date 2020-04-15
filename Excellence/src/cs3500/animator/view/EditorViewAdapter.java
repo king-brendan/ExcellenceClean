@@ -3,6 +3,7 @@ package cs3500.animator.view;
 import cs3500.animator.controller.ExcellenceController;
 import cs3500.animator.model.ExcellenceOperations;
 import cs3500.animator.model.ProviderModelAdapter;
+import cs3500.animator.model.ReadOnlyExcellenceOperations;
 import cs3500.animator.provider.view.Animator;
 
 /**
@@ -12,7 +13,7 @@ import cs3500.animator.provider.view.Animator;
  * view.
  */
 public class EditorViewAdapter implements EditableAnimatorView {
-  private ExcellenceOperations m;
+  private ReadOnlyExcellenceOperations m;
   private cs3500.animator.provider.view.IView v;
   private int speed;
 
@@ -22,7 +23,7 @@ public class EditorViewAdapter implements EditableAnimatorView {
    * @param m a model that implements our interface
    * @param speed the speed of the animation
    */
-  EditorViewAdapter(ExcellenceOperations m, int speed) {
+  EditorViewAdapter(ReadOnlyExcellenceOperations m, int speed) {
     this.m = m;
     this.v = new cs3500.animator.provider.view.EditorView();
     this.speed = speed;
@@ -76,7 +77,7 @@ public class EditorViewAdapter implements EditableAnimatorView {
 
   @Override
   public void displayAnimation() {
-    Animator adaptedModel = new ProviderModelAdapter(m);
+    Animator adaptedModel = new ProviderModelAdapter((ExcellenceOperations) m);
     v.render(adaptedModel, speed);
   }
 }
